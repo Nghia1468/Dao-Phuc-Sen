@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PHÚC SEN | Dao bếp chất lượng</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ============================================================
+     LOADING SCREEN
+============================================================ -->
+<div id="loader">
+  <div class="loader-logo">DAO BẾP PHÚC SEN</div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav class="navbar navbar-expand-lg" id="navbar">
+  <div class="container">
+    <a class="nav-logo" href="#hero">KAT<span>A</span>NA</a>
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navMenu"
+            aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="#hero">Trang chủ</a></li>
+        <li class="nav-item"><a class="nav-link" href="#products">Sản phẩm</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">Giới thiệu</a></li>
+        <li class="nav-item"><a class="nav-link" href="#order">Đặt hàng</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Liên hệ</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO SECTION
+============================================================ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Nghệ thuật dao bếp thủ công</p>
+    <h1 class="hero-title">Chất lượng<br><em>Dao bếp </em></h1>
+    <p class="hero-subtitle">Tinh hoa dao bếp dành cho nhà hàng, khách sạn</p>
+    <div class="hero-btns">
+      <a href="#order" class="btn-primary-custom">Mua ngay</a>
+      <a href="#products" class="btn-outline-custom">Xem sản phẩm</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     STATS BAR
+============================================================ -->
+<section id="stats">
+  <div class="container">
+    <div class="row g-0">
+      <div class="col-6 col-md-3">
+        <div class="stat-item reveal">
+          <div class="stat-num">12+</div>
+          <div class="stat-label">Năm kinh nghiệm</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item reveal reveal-delay-1">
+          <div class="stat-num">5K+</div>
+          <div class="stat-label">Khách hàng</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item reveal reveal-delay-2">
+          <div class="stat-num">48+</div>
+          <div class="stat-label">Dòng sản phẩm</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item reveal reveal-delay-3">
+          <div class="stat-num">99%</div>
+          <div class="stat-label">Hài lòng</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRODUCTS SECTION
+============================================================ -->
+<section id="products">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="section-label reveal">Bộ sưu tập</p>
+      <h2 class="section-title reveal reveal-delay-1">Tinh hoa dao bếp<br>cao cấp</h2>
+      <div class="section-divider center reveal reveal-delay-2"></div>
+    </div>
+
+    <!-- Bộ lọc sản phẩm -->
+    <div class="filter-bar reveal">
+      <button class="filter-btn active" data-filter="all">Tất cả</button>
+      <button class="filter-btn" data-filter="japanese">Dao chặt</button>
+      <button class="filter-btn" data-filter="chef">Dao thái</button>
+      <button class="filter-btn" data-filter="specialty">Combo dao bếp</button>
+    </div>
+
+    <div class="row g-4" id="productGrid">
+
+      <!-- Sản phẩm 1: Dao chặt gà -->
+      <div class="col-md-6 col-lg-4 product-item" data-cat="chef japanese">
+        <div class="product-card reveal">
+          <div class="product-img-wrap">
+            <img src="Image\dao chat ga.jpg"
+                 alt="Dao chặt gà, vịt" loading="lazy"/>
+            <span class="product-badge">Mua nhiều nhất</span>
+          </div>
+          <div class="product-body">
+            <p class="product-origin">Phúc Sen, Cao Bằng</p>
+            <h3 class="product-name">Dao chặt gà, vịt</h3>
+            <p class="product-desc">Thép nhíp đỏ cao cấp, lưỡi dao 210mm, cán sắt, gỗ, độ cứng HRC 62.</p>
+            <div class="product-footer">
+              <div class="product-price"><small>từ</small>329.000₫</div>
+              <button class="btn-buy" onclick="scrollToOrder('Dao Chặt gà')">Mua ngay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sản phẩm 2: Dao Chặt xương ống -->
+      <div class="col-md-6 col-lg-4 product-item" data-cat="japanese specialty">
+        <div class="product-card reveal reveal-delay-1">
+          <div class="product-img-wrap">
+            <img src="Image\dao chat xuong ong.jpg"
+                 alt="Dao Chặt xương ống" loading="lazy"/>
+          </div>
+          <div class="product-body">
+            <p class="product-origin">Phúc sen, Cao Bằng</p>
+            <h3 class="product-name">Dao Chặt xương ống</h3>
+            <p class="product-desc">Đa năng chuyên dụng chặt xương heo, bò. Lưỡi 180mm, thép nhíp đỏ cao cấp.</p>
+            <div class="product-footer">
+              <div class="product-price"><small>từ</small>379.000₫</div>
+              <button class="btn-buy" onclick="scrollToOrder('Dao Chặt xương ống')">Mua ngay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sản phẩm 3: Dao bầu -->
+      <div class="col-md-6 col-lg-4 product-item" data-cat="chef">
+        <div class="product-card reveal reveal-delay-2">
+          <div class="product-img-wrap">
+            <img src="Image\dao bau.jpg"
+                 alt="Dao bầu" loading="lazy"/>
+            <span class="product-badge">Limited</span>
+          </div>
+          <div class="product-body">
+            <p class="product-origin">Phúc sen, cao Bằng</p>
+            <h3 class="product-name">Dao bầu</h3>
+            <p class="product-desc">Dao baaof chuyên lọc thịt, lưỡi dao 21-22cm, rộng 6,5-7cm, dày 1,8 li, cán 12cm, nặng 300-400g, chất liệu nhíp đỏ Nga.</p>
+            <div class="product-footer">
+              <div class="product-price"><small>từ</small>265.000₫</div>
+              <button class="btn-buy" onclick="scrollToOrder('Dao bầu')">Mua ngay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sản phẩm 4: Dao thái gà -->
+      <div class="col-md-6 col-lg-4 product-item" data-cat="japanese specialty">
+        <div class="product-card reveal">
+          <div class="product-img-wrap">
+            <img src="Image\dao thai ga.jpg"
+                 alt="Dao thái gà" loading="lazy"/>
+          </div>
+          <div class="product-body">
+            <p class="product-origin">Phúc Sen, Cao Bằng</p>
+            <h3 class="product-name">Dao thái gà</h3>
+            <p class="product-desc">Chuyên dụng thái gà, vịt. Lưỡi dao 22-23cm, rộng 8-8.5cm, dày 3 li, cán 13cm, nặng 500g, chất liệu nhíp đỏ Nga</p>
+            <div class="product-footer">
+              <div class="product-price"><small>từ</small>329.000₫</div>
+              <button class="btn-buy" onclick="scrollToOrder('Dao thái gà')">Mua ngay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sản phẩm 5: Dao thái thịt -->
+      <div class="col-md-6 col-lg-4 product-item" data-cat="chef specialty">
+        <div class="product-card reveal reveal-delay-1">
+          <div class="product-img-wrap">
+            <img src="Image\dao thai thit.jpg"
+                 alt="Dao thái thịt" loading="lazy"/>
+          </div>
+          <div class="product-body">
+            <p class="product-origin">Sakai · Japan</p>
+            <h3 class="product-name">Dao thái thịt</h3>
+            <p class="product-desc">Dao chuyên thái thịt. Lưỡi dao 21-22cm, rộng 6.5-7cm, dày 1.8li, cán 12cm, nặng 300-400g, chất liệu nhóp đỏ Nga.</p>
+            <div class="product-footer">
+              <div class="product-price"><small>từ</small>285.000₫</div>
+              <button class="btn-buy" onclick="scrollToOrder('Dao thái thịt')">Mua ngay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sản phẩm 6: Combo 5 dao bếp sắt -->
+      <div class="col-md-6 col-lg-4 product-item" data-cat="chef specialty">
+        <div class="product-card reveal reveal-delay-2">
+          <div class="product-img-wrap">
+            <img src="Image\combo 5 dao bep sat.jpg""
+                 alt="Combo 5 dao bếp sắt" loading="lazy"/>
+          </div>
+          <div class="product-body">
+            <p class="product-origin">Phúc Sen, Cao Bằng</p>
+            <h3 class="product-name">Combo 5 dao bếp sắt </h3>
+            <p class="product-desc">Combo 5 dao bếp sắt. Lỗi 1 đổi 1 trong 7 ngày, bảo hành 12 tháng, miễn phí ship.</p>
+            <div class="product-footer">
+              <div class="product-price"><small>Giá gốc 1.450.000đ</small>1.300.000đ</div>
+              <button class="btn-buy" onclick="scrollToOrder('Combo 5 dao bếp sắt')">Mua ngay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /row#productGrid -->
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT SECTION
+============================================================ -->
+<section id="about">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-5">
+        <div class="about-img-wrap reveal">
+          <div class="about-img-frame"></div>
+          <img src="Image\anh bia.jpeg"
+               alt="Dao bếp thủ công"/>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <p class="section-label reveal">Về chúng tôi</p>
+        <h2 class="section-title reveal reveal-delay-1">Nghệ thuật rèn dao<br>từ thế kỷ 17</h2>
+        <div class="section-divider reveal reveal-delay-2"></div>
+        <p class="reveal reveal-delay-2" style="color:var(--silver-2);line-height:1.9;margin-bottom:36px;font-size:0.95rem;">
+          Phúc sen được thành lập với sứ mệnh mang tinh hoa dao bếp đến tay mọi đầu bếp Việt Nam.
+          Mỗi con dao là tác phẩm nghệ thuật được rèn thủ công qua hàng chục công đoạn tỉ mỉ bởi những
+          nghệ nhân lành nghề tại làng nghề Phúc Sen, Cao Bằng với kinh nghiệm nhiều thế hệ.
+        </p>
+        <div class="row g-3">
+          <div class="col-12">
+            <div class="feature-item reveal reveal-delay-1">
+              <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+              <div>
+                <div class="feature-title">Thép cao cấp nhíp đỏ Nga</div>
+                <p class="feature-desc">Sử dụng nhíp đỏ Nga chính hãng, độ cứng HRC 60–67.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="feature-item reveal reveal-delay-2">
+              <div class="feature-icon"><i class="bi bi-gem"></i></div>
+              <div>
+                <div class="feature-title">Độ sắc bén đẳng cấp</div>
+                <p class="feature-desc">Mài thủ công góc 15°, sắc bén gấp 3 lần dao thông thường.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="feature-item reveal reveal-delay-3">
+              <div class="feature-icon"><i class="bi bi-award"></i></div>
+              <div>
+                <div class="feature-title">Thiết kế phù hợp với nhu cầu Việt</div>
+                <p class="feature-desc">Kết hợp giữa kĩ thuật truyền thống, công nghệ rèn hiện đại và nhíp đỏ Nga chất lượng.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="feature-item reveal reveal-delay-4">
+              <div class="feature-icon"><i class="bi bi-clock-history"></i></div>
+              <div>
+                <div class="feature-title">Bảo hành </div>
+                <p class="feature-desc">Cam kết bảo hành 1 đổi 1 trong vòng 7 ngày, thử dao thoải mái.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS
+============================================================ -->
+<section id="testimonials">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="section-label reveal">Đánh giá</p>
+      <h2 class="section-title reveal reveal-delay-1">Khách hàng nói gì</h2>
+      <div class="section-divider center reveal reveal-delay-2"></div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="testimonial-card reveal">
+          <div class="star-row">★★★★★</div>
+          <p class="testimonial-text">"Combo 5 dao cực kì sắc và bền, hàng đúng quản cáo."</p>
+          <div class="testimonial-author">
+            <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=100&q=80"
+                 class="author-avatar" alt="Đầu bếp Minh Tuấn"/>
+            <div>
+              <div class="author-name">Đầy bếp Minh Tuấn</div>
+              <div class="author-role">Đầu bếp</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="star-row">★★★★★</div>
+          <p class="testimonial-text">"Dao bầu của Phúc sen là đẳng cấp khác. Vân thép đẹp như tác phẩm nghệ thuật, lại vô cùng sắc bén và bền bỉ."</p>
+          <div class="testimonial-author">
+            <img src="https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=100&q=80"
+                 class="author-avatar" alt="Heo quay Lan Anh"/>
+            <div>
+              <div class="author-name">Heo quay Lan Anh</div>
+              <div class="author-role">Chủ nhà hàng · Hà Nội</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="star-row">★★★★★</div>
+          <p class="testimonial-text">"Dịch vụ tư vấn nhiệt tình, giao hàng nhanh. Xứng đáng với số tiền bỏ ra."</p>
+          <div class="testimonial-author">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80"
+                 class="author-avatar" alt="Nguyễn Thị Hương"/>
+            <div>
+              <div class="author-name">Nguyễn Thị Hương</div>
+              <div class="author-role">TP.HCM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ORDER FORM SECTION
+============================================================ -->
+<section id="order">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <div class="text-center mb-5">
+          <p class="section-label reveal">Đặt hàng</p>
+          <h2 class="section-title reveal reveal-delay-1">Sở hữu ngay<br>dao bếp đẳng cấp</h2>
+          <div class="section-divider center reveal reveal-delay-2"></div>
+        </div>
+
+        <div class="form-wrapper reveal">
+          <!-- Trạng thái kết nối Google Sheets -->
+          <div class="gs-status mb-4" id="gsStatus">
+            <span class="gs-dot offline" id="gsDot"></span>
+            <span id="gsLabel">Chưa kết nối Google Sheets — cần cấu hình URL</span>
+          </div>
+
+          <form id="orderForm" novalidate>
+
+            <!-- Chọn sản phẩm -->
+            <p class="form-label mb-2">Chọn sản phẩm quan tâm</p>
+            <div class="product-selector" id="productSelector">
+              <div class="product-option" data-product="Dao Chặt gà">Dao Chặt gà</div>
+              <div class="product-option" data-product="Dao Chặt xương ống">Dao Chặt xương ống</div>
+              <div class="product-option" data-product="Dao bầu">Dao bầu</div>
+              <div class="product-option" data-product="Dao thái gà">Dao thái gà</div>
+              <div class="product-option" data-product="Combo 3 dao bếp sắt">Combo 3 dao bếp</div>
+              <div class="product-option" data-product="Combo 5 dao bếp sắt">Combo 5 dao bếp</div>
+            </div>
+            <input type="hidden" id="selectedProduct" name="product"/>
+
+            <!-- Thông tin bắt buộc -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label" for="fullName">
+                  Họ và tên <span style="color:var(--wine-glow)">*</span>
+                </label>
+                <input type="text" class="form-control" id="fullName"
+                       name="fullName" placeholder="Nguyễn Văn A" required/>
+                <div class="invalid-feedback">Vui lòng nhập họ và tên.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="phone">
+                  Số điện thoại <span style="color:var(--wine-glow)">*</span>
+                </label>
+                <input type="tel" class="form-control" id="phone"
+                       name="phone" placeholder="0912 345 678" required/>
+                <div class="invalid-feedback">Số điện thoại VN không hợp lệ (10 số, bắt đầu bằng 0).</div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="address">
+                Địa chỉ giao hàng <span style="color:var(--wine-glow)">*</span>
+              </label>
+              <input type="text" class="form-control" id="address"
+                     name="address" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố" required/>
+              <div class="invalid-feedback">Vui lòng nhập địa chỉ giao hàng.</div>
+            </div>
+
+            <!-- Thông tin không bắt buộc -->
+            <div class="mb-3">
+              <label class="form-label" for="email">Email</label>
+              <input type="email" class="form-control" id="email"
+                     name="email" placeholder="email@example.com"/>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="note">Ghi chú</label>
+              <textarea class="form-control" id="note" name="note" rows="3"
+                        placeholder="Yêu cầu đặc biệt, thời gian giao hàng..."></textarea>
+            </div>
+
+            <!-- Bản đồ chọn vị trí -->
+            <div class="mb-4">
+              <p class="map-label">Vị trí giao hàng trên bản đồ (tuỳ chọn)</p>
+              <button type="button" class="btn-locate" id="btnLocate">
+                <i class="bi bi-geo-alt me-2"></i>Lấy vị trí hiện tại
+              </button>
+              <div id="map"></div>
+              <div id="coordInfo" style="font-size:0.78rem;color:var(--silver-2);margin-top:8px;min-height:20px;"></div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-submit" id="submitBtn">
+              <span class="spinner"></span>
+              <span class="btn-text"><i class="bi bi-bag-check me-2"></i>Xác nhận đặt hàng</span>
+            </button>
+
+          </form>
+        </div><!-- /form-wrapper -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer id="contact">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <a href="#hero" class="footer-logo"><span>P</span>HÚC SEN</a>
+        <p class="footer-tagline">Tinh hoa dao bếp </p>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-link" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+          <a href="#" class="social-link" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <p class="footer-heading">Liên hệ</p>
+        <div class="footer-contact-item">
+          <i class="bi bi-geo-alt"></i>
+          <span>Phúc Sen, Cao Bằng</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="bi bi-telephone"></i>
+          <span>093 459 6198</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="bi bi-envelope"></i>
+          <span>info@katanaknives.vn</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="bi bi-clock"></i>
+          <span>tất cả các ngày trong tuần</span>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <p class="footer-heading">Điều hướng</p>
+        <ul class="footer-nav ps-0">
+          <li><a href="#hero">Trang chủ</a></li>
+          <li><a href="#products">Sản phẩm</a></li>
+          <li><a href="#about">Giới thiệu</a></li>
+          <li><a href="#testimonials">Đánh giá</a></li>
+          <li><a href="#order">Đặt hàng</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 dao bếp Phúc Sen. Thiết kế với ♥ tại Việt Nam.
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     BACK TO TOP + STICKY ORDER CTA
+============================================================ -->
+<button id="backTop" title="Về đầu trang" aria-label="Về đầu trang">
+  <i class="bi bi-chevron-up"></i>
+</button>
+<a href="#order" id="stickyCta">
+  <i class="bi bi-bag me-1"></i> Đặt hàng
+</a>
+
+
+<!-- ============================================================
+     SUCCESS MODAL
+============================================================ -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="btn-close btn-close-white"
+                data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      <div class="modal-body text-center py-4 px-4">
+        <div class="success-icon"><i class="bi bi-check-lg"></i></div>
+        <h4 id="successModalLabel"
+            style="font-family:'Cormorant Garamond',serif;font-weight:300;color:var(--white);font-size:1.8rem;margin-bottom:12px;">
+          Đặt hàng thành công!
+        </h4>
+        <p style="color:var(--silver-2);font-size:0.9rem;line-height:1.7;">
+          Cảm ơn bạn đã tin tưởng Dao bếp Phúc Sen.<br>
+          Chúng tôi sẽ liên hệ xác nhận trong vòng
+          <strong style="color:var(--white)">30 phút</strong>.
+        </p>
+        <div id="orderSummary"
+             style="background:var(--dark-3);border:1px solid rgba(192,192,200,0.08);
+                    padding:16px;margin-top:20px;text-align:left;
+                    font-size:0.85rem;color:var(--silver-2);">
+        </div>
+      </div>
+      <div class="modal-footer border-0 justify-content-center pb-4">
+        <button type="button" class="btn-primary-custom" data-bs-dismiss="modal"
+                style="padding:10px 32px;">
+          Đóng
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCRIPTS
+============================================================ -->
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Custom JS -->
+<script src="script.js"></script>
+
+<!-- Cập nhật trạng thái Google Sheets badge -->
+<script>
+  (function checkGSConfig() {
+    // Đọc CONFIG sau khi script.js đã load
+    setTimeout(() => {
+      if (
+        typeof CONFIG !== 'undefined' &&
+        CONFIG.APPS_SCRIPT_URL &&
+        CONFIG.APPS_SCRIPT_URL !== 'YOUR_APPS_SCRIPT_URL'
+      ) {
+        document.getElementById('gsDot').classList.remove('offline');
+        document.getElementById('gsLabel').textContent = 'Sau khi đặt hàng nhân viên tư vấn sẽ liên hệ với bạn';
+      }
+    }, 100);
+  })();
+</script>
+
+</body>
+</html>
