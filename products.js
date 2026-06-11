@@ -89,19 +89,19 @@ const PRODUCTS = {
       {
         id:   "db-gavit",
         name: "Dao bầu lọc gà/vịt",
-        desc: `Lưỡi dao: 22 - 23 cm <br>
-              Bản rộng: 8 - 8,5 cm <br>
-              Độ dày: 3 li <br>
-              Cán: 12cm - 13cm <br>
-              Nặng: 500-600 gr <br>
+        desc: `Lưỡi dao: 11-12 cm <br>
+              Bản rộng: 3,5 cm <br>
+              Độ dày: 1.6li <br>
+              Cán: 12-13cm <br>
+              Nặng: 200-300 gr <br>
               Chất liệu: 100% nhíp đỏ Nga`,
         img:  "Image/Loc Ga Vit 1.jpg",
         rating:      4.7,   // ← THÊM
         reviewCount: 46,   // ← THÊM
         soldCount:   1170,  // ← THÊM
         variants: {
-          "can-sat": { price: 265000, label: "Cán Sắt" },
-          "can-go":  { price: 385000, label: "Cán Gỗ"  }
+          "can-sat": { price: 250000, label: "Cán Sắt" },
+          "can-go":  { price: 280000, label: "Cán Gỗ"  }
         }
       },
       /*{

@@ -892,13 +892,23 @@ document.getElementById('btnConfirmSubmit')?.addEventListener('click', async () 
   btn.classList.add('loading');
   toast('Đang gửi đơn hàng...', 'info');
 
-  const ok = await sendToSheets(_pendingOrderData);
+const ok = await sendToSheets(_pendingOrderData);
   btn.disabled = false;
   btn.classList.remove('loading');
 
-  if (ok) toast('Đã lưu vào Google Sheets ✓', 'success');
-  else    toast('Lưu Sheets có sự cố — nhân viên sẽ gọi xác nhận.', 'error');
+  if (ok) {
+    toast('Đã lưu vào Google Sheets ✓', 'success');
 
+    gtag('event', 'conversion', {
+      'send_to': 'AW-10823258485/XXXXXXXXXX',  // ← thay XXXXXXXXXX bằng conversion label thật
+      'value': _pendingOrderData.total,
+      'currency': 'VND',
+      'transaction_id': Date.now().toString()
+    });
+
+  } else {
+    toast('Lưu Sheets có sự cố — nhân viên sẽ gọi xác nhận.', 'error');
+  }
   /* Đóng confirm modal */
   bootstrap.Modal.getInstance(document.getElementById('confirmModal'))?.hide();
 
