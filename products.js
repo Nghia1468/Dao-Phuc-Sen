@@ -222,27 +222,27 @@ const HERO_SLIDES = [
   {
     img:      "Image/anh bia.jpg",
     title:    "Dao Chặt Gà",
-    subtitle: "Tinh hoa dao rèn thủ công Phúc Sen — Chặt sạch, không mẻ lưỡi"
+    subtitle: "Tinh hoa rèn thủ công làng nghề Phúc Sen — Dùng trong bếp gia đình và chế biến thực phẩm"
   },
   {
     img:      "Image/anh nen.jpg",
     title:    "Dao Chặt Xương",
-    subtitle: "Thép dày tôi nhiệt HRC 54 — Chặt xương heo bò không ngán"
+    subtitle: "Thép dày rèn thủ công — Dùng cho chế biến xương heo bò trong bếp"
   },
   {
     img:      "Image/anh bia 1.jpg",
     title:    "Dao Bầu Cao Cấp",
-    subtitle: "Cán gỗ chắc tay — Lưỡi thép không gỉ bền theo năm tháng"
+    subtitle: "Cán gỗ chắc tay — Lưỡi thép rèn thủ công bền đẹp theo năm tháng"
   },
   {
     img:      "Image/anh bia 2.jpg",
     title:    "Dao Thái Thịt",
-    subtitle: "Lưỡi mỏng 2mm — Thái thịt sống chín mỏng đều, sắc như mới"
+    subtitle: "Lưỡi mỏng rèn tay — Thái thịt sống chín mỏng đều, tiện lợi mỗi bữa cơm"
   },
   {
     img:      "Image/anh bia 3.jpg",
     title:    "Dao Thái Lớn",
-    subtitle: "Dành cho nhà hàng & đầu bếp chuyên nghiệp — Mài sắc góc 12°"
+    subtitle: "Dao thủ công làng nghề Phúc Sen — Phù hợp chế biến thực phẩm gia đình và kinh doanh ăn uống"
   }
 ];
 
