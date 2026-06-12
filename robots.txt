@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://langdaophucsencaobang.shop/sitemap.xml
+
+# Block admin/private paths if any
+Disallow: /google-apps-script.js

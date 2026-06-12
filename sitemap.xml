@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <url>
+    <loc>https://langdaophucsencaobang.shop/</loc>
+    <lastmod>2025-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://langdaophucsencaobang.shop/Image/logo.png</image:loc>
+      <image:title>Logo Dao Phúc Sen Cao Bằng</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://langdaophucsencaobang.shop/Image/og-image.jpg</image:loc>
+      <image:title>Dao Bếp Phúc Sen Cao Bằng</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://langdaophucsencaobang.shop/Image/anh bia.jpg</image:loc>
+      <image:title>Làng Dao Phúc Sen Cao Bằng</image:title>
+    </image:image>
+  </url>
+
+</urlset>

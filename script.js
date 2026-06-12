@@ -892,23 +892,13 @@ document.getElementById('btnConfirmSubmit')?.addEventListener('click', async () 
   btn.classList.add('loading');
   toast('Đang gửi đơn hàng...', 'info');
 
-const ok = await sendToSheets(_pendingOrderData);
+  const ok = await sendToSheets(_pendingOrderData);
   btn.disabled = false;
   btn.classList.remove('loading');
 
-  if (ok) {
-    toast('Đã lưu vào Google Sheets ✓', 'success');
+  if (ok) toast('Đã lưu vào Google Sheets ✓', 'success');
+  else    toast('Lưu Sheets có sự cố — nhân viên sẽ gọi xác nhận.', 'error');
 
-    gtag('event', 'conversion', {
-      'send_to': 'AW-10823258485/XXXXXXXXXX',  // ← thay XXXXXXXXXX bằng conversion label thật
-      'value': _pendingOrderData.total,
-      'currency': 'VND',
-      'transaction_id': Date.now().toString()
-    });
-
-  } else {
-    toast('Lưu Sheets có sự cố — nhân viên sẽ gọi xác nhận.', 'error');
-  }
   /* Đóng confirm modal */
   bootstrap.Modal.getInstance(document.getElementById('confirmModal'))?.hide();
 
@@ -939,6 +929,15 @@ const ok = await sendToSheets(_pendingOrderData);
   document.getElementById('sucTotal').textContent   = fmt(d.total);
   document.getElementById('sucTime').textContent    = d.deliveryTime || 'Không yêu cầu';
 
+  /* Google Ads — conversion tracking */
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'conversion', {
+      'send_to': 'AW-10823258485',
+      'value': _pendingOrderData.total,
+      'currency': 'VND'
+    });
+  }
+
   /* Reset toàn bộ sau khi đặt thành công */
   cart.clear();
   document.getElementById('orderForm').reset();
@@ -954,6 +953,60 @@ const ok = await sendToSheets(_pendingOrderData);
 
   setTimeout(() => new bootstrap.Modal(document.getElementById('successModal')).show(), 400);
 });
+
+/* ════════════════════════════════════════════════
+   META PIXEL — ViewContent khi xem sản phẩm
+════════════════════════════════════════════════ */
+/* Gắn vào nút "Mua ngay" - ViewContent */
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.btn-buy');
+  if (!btn) return;
+  const id = btn.dataset.id;
+  const product = getProductById(id);
+  if (!product || typeof fbq === 'undefined') return;
+  const minPrice = Math.min(...Object.values(product.variants).map(v => v.price));
+  fbq('track', 'ViewContent', {
+    content_name:     product.name,
+    content_ids:      [id],
+    content_type:     'product',
+    value:            minPrice / 1000,   // quy đổi VND → tương đương
+    currency:         'VND',
+  });
+});
+
+/* Lead — khi gửi form thành công (gọi sau sendToSheets thành công) */
+const _origConfirmSubmitBtn = document.getElementById('btnConfirmSubmit');
+if (_origConfirmSubmitBtn) {
+  _origConfirmSubmitBtn.addEventListener('click', function _pixelLead() {
+    if (typeof fbq !== 'undefined') {
+      const lines = buildOrderLines();
+      const sub   = cartSubtotal();
+      fbq('track', 'Lead', {
+        value:    sub / 1000,
+        currency: 'VND',
+        content_name: lines.map(l => l.productName).join(', '),
+      });
+      fbq('track', 'Purchase', {
+        value:    (sub + shipFee()) / 1000,
+        currency: 'VND',
+        content_ids: [...cart.keys()],
+        content_type: 'product',
+      });
+    }
+  }, { once: false });
+}
+
+/* Contact — Facebook, Zalo, Phone */
+document.addEventListener('click', function(e) {
+  const link = e.target.closest('a[href^="https://zalo.me"], a[href^="https://www.facebook.com"], a[href^="tel:"]');
+  if (!link || typeof fbq === 'undefined') return;
+  let content_name = 'Link';
+  if (link.href.includes('zalo'))    content_name = 'Zalo';
+  else if (link.href.includes('facebook')) content_name = 'Facebook';
+  else if (link.href.startsWith('tel:'))   content_name = 'Phone';
+  fbq('track', 'Contact', { content_name });
+});
+
 /* ════════════════════════════════════════════════
    LIGHTBOX — phóng to ảnh sản phẩm
 ════════════════════════════════════════════════ */
@@ -961,11 +1014,13 @@ const ok = await sendToSheets(_pendingOrderData);
   const overlay  = document.getElementById('lightboxOverlay');
   const lbImg    = document.getElementById('lightboxImg');
   const closeBtn = document.getElementById('lightboxClose');
+  if (!overlay) return;
 
-  /* Dùng event delegation — bắt cả ảnh render sau khi filterTab */
+  /* Event delegation — bắt mọi ảnh trong productGrid kể cả sau filter */
   document.getElementById('productGrid').addEventListener('click', e => {
     const img = e.target.closest('.product-img-wrap img');
     if (!img) return;
+    /* Pixel ViewContent cũng kích hoạt khi phóng ảnh */
     lbImg.src = img.src;
     lbImg.alt = img.alt;
     overlay.classList.add('active');
@@ -976,7 +1031,6 @@ const ok = await sendToSheets(_pendingOrderData);
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   }
-
   closeBtn.addEventListener('click', closeLb);
   overlay.addEventListener('click', e => { if (e.target === overlay) closeLb(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
@@ -992,7 +1046,6 @@ const ok = await sendToSheets(_pendingOrderData);
 
   let cur = 0, timer;
 
-  /* Tạo dots */
   slides.forEach((_, i) => {
     const d = document.createElement('button');
     d.className = 'adot' + (i === 0 ? ' active' : '');

@@ -12,7 +12,7 @@ const PRODUCTS = {
     items: [
       {
         id:   "dc-ga",
-        name: "Dao Chặt Gà-Vịt",
+        name: "Dao Chặt Gà",
         desc: `Lưỡi dao: 22–23 cm<br>
         Bản rộng: 8–8.5 cm<br>
         Độ dày: 3 cm<br>
@@ -32,7 +32,7 @@ const PRODUCTS = {
       },
       {
         id:   "dc-xuong",
-        name: "Dao Chặt Xương Ống",
+        name: "Dao Chặt Xương",
         desc: `Lưỡi dao: 22 -23 cm cm<br>
               Bản rộng: 8 - 8.5 cm <br>
               Dày: 5 li, cán:12-13cm <br>
@@ -40,7 +40,7 @@ const PRODUCTS = {
               Nặng: 700-800 gram <br>
               Chất liệu: 100% nhíp đỏ Nga`,
         img:  "Image/Dao Chat Xuong Ong - Chan Gio.jpg",
-        rating:      4.8,   // ← THÊM
+        rating:      4.2,   // ← THÊM
         reviewCount: 68,   // ← THÊM
         soldCount:   1463,  // ← THÊM
         variants: {
@@ -78,7 +78,7 @@ const PRODUCTS = {
               Nặng: 250-350 gr <br>
               Chất liệu: 100% nhíp đỏ Nga`,
         img:  "Image/Bau Loc Thai (2).jpg",
-        rating:      4.9,   // ← THÊM
+        rating:      4.4,   // ← THÊM
         reviewCount: 156,   // ← THÊM
         soldCount:   2530,  // ← THÊM
         variants: {
@@ -89,19 +89,19 @@ const PRODUCTS = {
       {
         id:   "db-gavit",
         name: "Dao bầu lọc gà/vịt",
-        desc: `Lưỡi dao: 11-12 cm <br>
+        desc: `Lưỡi dao: 11-12 cm  <br>
               Bản rộng: 3,5 cm <br>
               Độ dày: 1.6li <br>
               Cán: 12-13cm <br>
               Nặng: 200-300 gr <br>
               Chất liệu: 100% nhíp đỏ Nga`,
         img:  "Image/Loc Ga Vit 1.jpg",
-        rating:      4.7,   // ← THÊM
+        rating:      4.3,   // ← THÊM
         reviewCount: 46,   // ← THÊM
         soldCount:   1170,  // ← THÊM
         variants: {
-          "can-sat": { price: 250000, label: "Cán Sắt" },
-          "can-go":  { price: 280000, label: "Cán Gỗ"  }
+          "can-sat": { price: 265000, label: "Cán Sắt" },
+          "can-go":  { price: 385000, label: "Cán Gỗ"  }
         }
       },
       /*{
@@ -134,7 +134,7 @@ const PRODUCTS = {
               Nặng: 250-300 gr <br>
               Chất liệu: 100% nhíp đỏ Nga`,
         img:  "Image/dao thai thit.jpg",
-        rating:      4.8,   // ← THÊM
+        rating:      4.4,   // ← THÊM
         reviewCount: 189,   // ← THÊM
         soldCount:   2350,  // ← THÊM
         variants: {
@@ -188,7 +188,7 @@ const PRODUCTS = {
               Tiết kiệm 15%.`,
         img:  "Image/combo 3 dao bep sat.jpg",
         badge: "Tiết kiệm 15%",
-        rating:      4.9,   // ← THÊM
+        rating:      4.4,   // ← THÊM
         reviewCount: 49,   // ← THÊM
         soldCount:   894,  // ← THÊM
         variants: {
@@ -203,7 +203,7 @@ const PRODUCTS = {
               Tiết kiệm 15%.`,
         img:  "Image/combo 5 dao bep sat.jpg",
         badge: "Tiết kiệm 18%",
-        rating:      4.8,   // ← THÊM
+        rating:      4.6,   // ← THÊM
         reviewCount: 34,   // ← THÊM
         soldCount:   562,  // ← THÊM
         variants: {
@@ -221,27 +221,27 @@ const CATEGORY_ORDER = ["dao-chat", "dao-bau", "dao-thai", "combo"];
 const HERO_SLIDES = [
   {
     img:      "Image/anh bia.jpg",
-    title:    "Dao Chuyên Chặt Gà-Vịt",
+    title:    "Dao Chặt Gà",
     subtitle: "Tinh hoa dao rèn thủ công Phúc Sen — Chặt sạch, không mẻ lưỡi"
   },
   {
     img:      "Image/anh nen.jpg",
-    title:    "Dao Chặt Xương Ống - Chân Giò",
-    subtitle: "100% hép Nhíp Đỏ Nga — Chặt xương heo bò không ngán"
+    title:    "Dao Chặt Xương",
+    subtitle: "Thép dày tôi nhiệt HRC 54 — Chặt xương heo bò không ngán"
   },
   {
     img:      "Image/anh bia 1.jpg",
-    title:    "Dao Bầu Lọc Cao Cấp",
-    subtitle: "Cán gỗ chắc tay — Giữ Sắc - Giữ Cạnh Tốt"
+    title:    "Dao Bầu Cao Cấp",
+    subtitle: "Cán gỗ chắc tay — Lưỡi thép không gỉ bền theo năm tháng"
   },
   {
     img:      "Image/anh bia 2.jpg",
-    title:    "Dao Chuyên Thái ",
-    subtitle: " Thái thịt sống chín mỏng đều, sắc như mới"
+    title:    "Dao Thái Thịt",
+    subtitle: "Lưỡi mỏng 2mm — Thái thịt sống chín mỏng đều, sắc như mới"
   },
   {
     img:      "Image/anh bia 3.jpg",
-    title:    "Dao Gọt Củ Quả",
+    title:    "Dao Thái Lớn",
     subtitle: "Dành cho nhà hàng & đầu bếp chuyên nghiệp — Mài sắc góc 12°"
   }
 ];
