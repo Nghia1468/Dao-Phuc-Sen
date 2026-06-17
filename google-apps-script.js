@@ -3,7 +3,7 @@
 // Deploy: script.google.com → New project → paste this code
 // Execute as: Me | Access: Anyone
 // ============================================================
-const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID'; // ← thay ID sheet của bạn
+const SPREADSHEET_ID = '1KsmXyluVaktUlQF2UqUKIQawOvRyw-ymxBmMeC-sY0M'; // ← thay ID sheet của bạn
 
 const HEADERS = [
   'Thời gian','Họ tên','Điện thoại',
