@@ -3,7 +3,7 @@
    ============================================================ */
 
 const CONFIG = {
-  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwcP1fPONM_x1I2GvWo3UrCWDKh5bX4qIPUgt9Yb4Ll7sGGGYGnB5kJ0sHUoBAMBxYx/exec',
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwzCyUxklJxzQM9evmr7ncYKyXXGdsQ4SVzLDOCpYOk6X9BFfYSoEK5SyqO8rcnGarddw/exec',
   VN_ADDRESS_API:  'https://provinces.open-api.vn/api',
   DEFAULT_COORDS:  [22.665, 106.254],
   DEFAULT_ZOOM:    13,
