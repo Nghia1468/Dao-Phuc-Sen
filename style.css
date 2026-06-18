@@ -211,6 +211,16 @@ footer{background:var(--black);border-top:1px solid rgba(192,192,200,.06);paddin
 .float-btn-zalo{background:#0068ff;color:#fff;border:1px solid #0057d4}
 .float-btn-zalo:hover{background:#0055d0;box-shadow:0 0 20px rgba(0,104,255,.4)}
 .float-btn-zalo .zalo-icon{width:20px;height:20px;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;color:#0068ff;letter-spacing:-.05em;flex-shrink:0}
+.float-btn-call {
+  background: #2e7d32;
+  color: #fff;
+  border: 1px solid #1b5e20;
+}
+.float-btn-call:hover {
+  background: #388e3c;
+  box-shadow: 0 0 20px rgba(46,125,50,.4);
+  color: #fff;
+}
 #backTop{width:40px;height:40px;background:var(--dark-3);border:1px solid rgba(192,192,200,.15);color:var(--silver-2);font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease);opacity:0;transform:translateX(16px)}
 #backTop.visible{opacity:1;transform:translateX(0)}
 #backTop:hover{background:var(--wine);border-color:var(--wine);color:var(--white)}
