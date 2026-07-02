@@ -896,8 +896,18 @@ document.getElementById('btnConfirmSubmit')?.addEventListener('click', async () 
   btn.disabled = false;
   btn.classList.remove('loading');
 
-  if (ok) toast('Đã lưu vào Google Sheets ✓', 'success');
-  else    toast('Lưu Sheets có sự cố — nhân viên sẽ gọi xác nhận.', 'error');
+if (ok) {
+  toast('Đã lưu vào Google Sheets ✓', 'success');
+
+  // Google Tag Manager — sự kiện đặt hàng thành công
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'purchase_success'
+  });
+
+} else {
+  toast('Lưu Sheets có sự cố — nhân viên sẽ gọi xác nhận.', 'error');
+}
 
   /* Đóng confirm modal */
   bootstrap.Modal.getInstance(document.getElementById('confirmModal'))?.hide();
