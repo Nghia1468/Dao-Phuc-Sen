@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  /* An toàn cho mobile: không cho bất kỳ phần tử nào làm trang bị tràn ngang */
+}
+
+body {
+  background-color: #ffffff;
+  color: #1F1F1F;
+}
+
+::selection {
+  background-color: #8F1D21;
+  color: #ffffff;
+}
+
+/* Thin gold seam divider — the signature "kintsugi" motif:
+   a hairline that quietly joins two sections, echoing the idea
+   that the seam itself can be the beautiful part. */
+.seam {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #8F1D21 20%,
+    #8F1D21 80%,
+    transparent 100%
+  );
+  opacity: 0.6;
+}
+
+.seam::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: #8F1D21;
+}
+
+/* Divider vàng đồng — dùng cho giao diện "Dark Luxury" (trang chủ). */
+.dl-seam {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #D4AF37 20%,
+    #D4AF37 80%,
+    transparent 100%
+  );
+  opacity: 0.55;
+}
+
+.dl-seam::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: #D4AF37;
+}
+
+/* underline hover animation for nav links */
+.nav-link {
+  position: relative;
+  /* Không đặt color ở đây nữa — trước đây để #1F1F1F (gần đen) khiến chữ
+     menu danh mục bị chìm vào nền tối (chữ xám trên nền xám, rất khó đọc).
+     Để Tailwind (text-daoSilver / text-daoWhite ở Header.tsx) quyết định màu chữ. */
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 1px;
+  background-color: #a02828;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-link:hover {
+  color: #f5f5f7;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Custom scrollbar — CHỈ áp dụng cho thiết bị có chuột (desktop). Trên di động,
+   một số trình duyệt trong ứng dụng (Zalo/Facebook/TikTok webview...) hiển thị
+   scrollbar kiểu "chiếm chỗ thật" thay vì kiểu nổi (overlay) như Chrome/Safari
+   thường thấy — nếu style nó 10px màu đậm như trước, nó sẽ đè lên rìa phải của
+   trang, trông giống như nội dung bị "mất" hoặc "che" ở cạnh phải. Giới hạn lại
+   bằng (pointer: fine) để chỉ áp dụng khi chắc chắn có chuột. */
+@media (hover: hover) and (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F8F7F5;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #8F1D21;
+    border-radius: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Style thủ công cho nội dung Markdown ở trang Blog (chưa cài @tailwindcss/typography) */
+.prose-blog h2 {
+  font-family: var(--font-playfair), serif;
+  font-size: 1.4rem;
+  color: #1F1F1F;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.prose-blog h3 {
+  font-family: var(--font-playfair), serif;
+  font-size: 1.15rem;
+  color: #1F1F1F;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose-blog p {
+  margin-bottom: 1rem;
+}
+.prose-blog ul,
+.prose-blog ol {
+  margin-bottom: 1rem;
+  padding-left: 1.25rem;
+}
+.prose-blog ul {
+  list-style: disc;
+}
+.prose-blog ol {
+  list-style: decimal;
+}
+.prose-blog a {
+  color: #8F1D21;
+  text-decoration: underline;
+}
+.prose-blog img {
+  border-radius: 14px;
+  margin: 1.5rem 0;
+}
+.prose-blog strong {
+  color: #1F1F1F;
+  font-weight: 600;
+}
