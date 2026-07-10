@@ -107,6 +107,18 @@ export async function getAllReviewsForAdmin(): Promise<Review[]> {
   return getAllReviews();
 }
 
+/**
+ * N đánh giá ĐÃ DUYỆT mới nhất — gộp từ mọi sản phẩm, mới nhất trước.
+ * Dùng cho khối "Khách hàng nói gì" ở trang chủ.
+ */
+export async function getLatestApprovedReviews(limit = 3): Promise<Review[]> {
+  const all = await getAllReviews();
+  return all
+    .filter((r) => r.approved)
+    .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0))
+    .slice(0, limit);
+}
+
 export interface SubmitReviewInput {
   productId: string;
   author: string;
