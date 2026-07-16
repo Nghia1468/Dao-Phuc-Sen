@@ -101,7 +101,7 @@ export default function ProductDetailView({
               alt={product.name}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover transition-transform duration-300 ease-silk"
+              className="object-contain transition-transform duration-300 ease-silk"
               style={
                 zoom
                   ? { transform: "scale(1.6)", transformOrigin: `${zoom.x}% ${zoom.y}%` }
@@ -120,11 +120,11 @@ export default function ProductDetailView({
                 <button
                   key={src + i}
                   onClick={() => setActiveImg(i)}
-                  className={`relative h-20 w-20 shrink-0 rounded-soft overflow-hidden border-2 transition-colors ${
+                  className={`relative h-20 w-20 shrink-0 rounded-soft overflow-hidden border-2 bg-daoDark transition-colors ${
                     i === activeImg ? "border-daoWineLight" : "border-transparent"
                   }`}
                 >
-                  <Image src={src} alt="" fill sizes="80px" className="object-cover" />
+                  <Image src={src} alt="" fill sizes="80px" className="object-contain" />
                 </button>
               ))}
             </div>

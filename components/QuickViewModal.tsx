@@ -91,7 +91,7 @@ export default function QuickViewModal({
                     alt={product.name}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover"
+                    className="object-contain"
                   />
                 </div>
                 {product.images.length > 1 && (
@@ -100,11 +100,11 @@ export default function QuickViewModal({
                       <button
                         key={src + i}
                         onClick={() => setActiveImg(i)}
-                        className={`relative h-16 w-16 shrink-0 rounded-soft overflow-hidden border-2 transition-colors ${
+                        className={`relative h-16 w-16 shrink-0 rounded-soft overflow-hidden border-2 bg-daoDark transition-colors ${
                           i === activeImg ? "border-daoWineLight" : "border-transparent"
                         }`}
                       >
-                        <Image src={src} alt="" fill sizes="64px" className="object-cover" />
+                        <Image src={src} alt="" fill sizes="64px" className="object-contain" />
                       </button>
                     ))}
                   </div>
