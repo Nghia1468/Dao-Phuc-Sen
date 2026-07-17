@@ -299,7 +299,7 @@ export default function CheckoutPage() {
                         <p className="text-sm text-ink line-clamp-1">{item.name}</p>
                         <p className="text-xs text-inkLight">SL: {item.quantity}</p>
                       </div>
-                      <span className="text-sm text-ink shrink-0">
+                      <span className="font-price text-sm font-semibold text-ink shrink-0">
                         {formatVND(item.price * item.quantity)}
                       </span>
                     </li>
@@ -365,21 +365,25 @@ export default function CheckoutPage() {
               <div className="border-t border-blush pt-4 space-y-2 text-sm">
                 <div className="flex justify-between text-inkLight">
                   <span>Tạm tính</span>
-                  <span>{formatVND(subtotal)}</span>
+                  <span className="font-price font-semibold text-ink">{formatVND(subtotal)}</span>
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-clayDark">
                     <span>Giảm giá</span>
-                    <span>-{formatVND(discount)}</span>
+                    <span className="font-price font-semibold">-{formatVND(discount)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-inkLight">
                   <span>Phí vận chuyển</span>
-                  <span>{shippingFee === 0 ? "Miễn phí" : formatVND(shippingFee)}</span>
+                  {shippingFee === 0 ? (
+                    <span className="font-semibold text-ink">Miễn phí</span>
+                  ) : (
+                    <span className="font-price font-semibold text-ink">{formatVND(shippingFee)}</span>
+                  )}
                 </div>
                 <div className="flex justify-between font-display text-lg text-ink pt-2 border-t border-blush">
                   <span>Tổng cộng</span>
-                  <span>{formatVND(total)}</span>
+                  <span className="font-price text-lg font-extrabold">{formatVND(total)}</span>
                 </div>
               </div>
 

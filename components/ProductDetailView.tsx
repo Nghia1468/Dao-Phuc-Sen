@@ -12,8 +12,10 @@ import {
   Headset,
   PackageCheck,
   Ticket,
+  PlayCircle,
 } from "lucide-react";
 import { formatVND, type Product } from "@/lib/data";
+import { isYouTubeUrl, getYouTubeEmbedUrl, getYouTubeThumbnail } from "@/lib/youtube";
 import type { Review } from "@/lib/reviews";
 import { useCart } from "@/lib/cart-context";
 import { useToast } from "@/lib/toast-context";
@@ -30,8 +32,10 @@ export default function ProductDetailView({
   reviews: Review[];
 }) {
   const hasVariants = !!product.variants && product.variants.length > 0;
+  const hasVideo = !!product.video;
 
-  const [activeImg, setActiveImg] = useState(0);
+  // activeImg = -1 nghĩa là đang xem video (luôn đứng đầu gallery nếu có).
+  const [activeImg, setActiveImg] = useState(hasVideo ? -1 : 0);
   const [qty, setQty] = useState(1);
   const [variantIndex, setVariantIndex] = useState(0);
   const [tab, setTab] = useState<"desc" | "spec" | "review">("desc");
@@ -88,6 +92,7 @@ export default function ProductDetailView({
           <div
             className="relative aspect-square rounded-softLg overflow-hidden bg-daoDark mb-4 cursor-zoom-in"
             onMouseMove={(e) => {
+              if (activeImg === -1) return;
               const rect = e.currentTarget.getBoundingClientRect();
               setZoom({
                 x: ((e.clientX - rect.left) / rect.width) * 100,
@@ -96,26 +101,67 @@ export default function ProductDetailView({
             }}
             onMouseLeave={() => setZoom(null)}
           >
-            <Image
-              src={product.images[activeImg]}
-              alt={product.name}
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-contain transition-transform duration-300 ease-silk"
-              style={
-                zoom
-                  ? { transform: "scale(1.6)", transformOrigin: `${zoom.x}% ${zoom.y}%` }
-                  : undefined
-              }
-            />
+            {activeImg === -1 && hasVideo ? (
+              isYouTubeUrl(product.video!) && getYouTubeEmbedUrl(product.video!) ? (
+                <iframe
+                  src={getYouTubeEmbedUrl(product.video!)!}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                // eslint-disable-next-line jsx-a11y/media-has-caption
+                <video
+                  src={product.video}
+                  className="w-full h-full object-contain"
+                  controls
+                  playsInline
+                />
+              )
+            ) : (
+              <Image
+                src={product.images[activeImg]}
+                alt={product.name}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain transition-transform duration-300 ease-silk cursor-default"
+                style={
+                  zoom
+                    ? { transform: "scale(1.6)", transformOrigin: `${zoom.x}% ${zoom.y}%` }
+                    : undefined
+                }
+              />
+            )}
             {discountPct > 0 && (
               <span className="absolute top-4 left-4 h-14 w-14 flex items-center justify-center rounded-full bg-daoWine text-white text-sm font-semibold shadow-[0_18px_50px_rgba(0,0,0,.55)]">
                 -{discountPct}%
               </span>
             )}
           </div>
-          {product.images.length > 1 && (
+          {(hasVideo || product.images.length > 1) && (
             <div className="flex gap-3 overflow-x-auto pb-1">
+              {hasVideo && (
+                <button
+                  onClick={() => setActiveImg(-1)}
+                  className={`relative h-20 w-20 shrink-0 rounded-soft overflow-hidden border-2 bg-black transition-colors ${
+                    activeImg === -1 ? "border-daoWineLight" : "border-transparent"
+                  }`}
+                  aria-label="Xem video sản phẩm"
+                >
+                  {isYouTubeUrl(product.video!) && getYouTubeThumbnail(product.video!) && (
+                    <Image
+                      src={getYouTubeThumbnail(product.video!)!}
+                      alt=""
+                      fill
+                      sizes="80px"
+                      className="object-cover opacity-70"
+                    />
+                  )}
+                  <span className="absolute inset-0 flex items-center justify-center">
+                    <PlayCircle size={26} className="text-white drop-shadow" />
+                  </span>
+                </button>
+              )}
               {product.images.map((src, i) => (
                 <button
                   key={src + i}
@@ -168,31 +214,32 @@ export default function ProductDetailView({
           <div className="flex flex-wrap items-center gap-3 mb-7">
             {effectiveSalePrice ? (
               <>
-                <span className="font-display text-2xl sm:text-3xl md:text-4xl font-semibold text-daoWineLight">
+                <span className="font-price text-2xl sm:text-3xl md:text-4xl font-extrabold text-daoWineLight">
                   {formatVND(effectiveSalePrice)}
                 </span>
-                <span className="text-base sm:text-lg text-daoSilver line-through">
+                <span className="font-price text-base sm:text-lg font-semibold text-daoSilver line-through">
                   {formatVND(effectivePrice)}
                 </span>
               </>
             ) : (
-              <span className="font-display text-2xl sm:text-3xl md:text-4xl font-semibold text-daoWhite">
+              <span className="font-price text-2xl sm:text-3xl md:text-4xl font-extrabold text-daoWhite">
                 {formatVND(effectivePrice)}
               </span>
             )}
           </div>
 
-          {/* Chọn loại cán — Cán Sắt / Cán Gỗ, mỗi loại giá riêng. Có thể đặt cùng lúc
+          {/* Chọn tuỳ biến — tên do người bán tự đặt (Cán Sắt/Cán Gỗ/Size.../...), mỗi loại giá riêng.
+              Có thể đặt cùng lúc
               cả 2 loại bằng cách thêm vào giỏ lần lượt (mỗi loại là 1 dòng riêng). */}
           {hasVariants && (
             <div className="mb-7">
               <p className="text-sm text-daoWhite mb-2.5">
-                Loại cán: <span className="font-medium">{selectedVariant?.label}</span>
+                Tuỳ chọn: <span className="font-medium">{selectedVariant?.label}</span>
               </p>
               <div className="flex flex-wrap gap-2.5">
                 {product.variants!.map((v, i) => (
                   <button
-                    key={v.handleType}
+                    key={v.id}
                     onClick={() => setVariantIndex(i)}
                     className={`px-5 py-2.5 text-sm rounded-full border-2 transition-colors ${
                       variantIndex === i
@@ -200,7 +247,7 @@ export default function ProductDetailView({
                         : "border-daoBorder text-daoWhite hover:border-daoWine"
                     }`}
                   >
-                    {v.label} · {formatVND(v.salePrice ?? v.price)}
+                    {v.label} · <span className="font-price font-semibold">{formatVND(v.salePrice ?? v.price)}</span>
                   </button>
                 ))}
               </div>

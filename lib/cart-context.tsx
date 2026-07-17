@@ -11,7 +11,7 @@ import {
 import type { Product, ProductVariant } from "./data";
 
 export interface CartItem {
-  /** id duy nhất trong giỏ = mã sản phẩm + loại cán (để 1 dao có thể nằm 2 dòng: cán sắt / cán gỗ). */
+  /** id duy nhất trong giỏ = mã sản phẩm + id tuỳ biến (để 1 sản phẩm có thể nằm nhiều dòng theo từng tuỳ biến đã chọn). */
   id: string;
   productId: string;
   name: string;
@@ -70,7 +70,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       // (thường là Cán Sắt) — để ProductCard/QuickView "thêm nhanh" vẫn hoạt động đúng.
       const chosen =
         variant ?? (product.variants && product.variants.length > 0 ? product.variants[0] : undefined);
-      const lineId = chosen ? `${product.id}__${chosen.handleType}` : product.id;
+      const lineId = chosen ? `${product.id}__${chosen.id}` : product.id;
       const price = chosen ? chosen.salePrice ?? chosen.price : product.salePrice ?? product.price;
 
       setItems((prev) => {

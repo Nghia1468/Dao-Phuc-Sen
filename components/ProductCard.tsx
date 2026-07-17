@@ -128,7 +128,7 @@ export default function ProductCard({
                 title={product.name}
                 fill
                 sizes="(max-width: 768px) 50vw, 20vw"
-                className={`object-cover transition-[opacity,transform] duration-[1200ms] ease-silk ${
+                className={`object-contain transition-[opacity,transform] duration-[1200ms] ease-silk ${
                   hovered ? "scale-[1.05]" : "scale-100"
                 }`}
                 style={{ opacity: i === imgIndex ? 1 : 0 }}
@@ -297,14 +297,14 @@ export default function ProductCard({
             {product.salePrice ? (
               <>
                 <span
-                  className={`font-display text-base font-semibold ${
+                  className={`font-price text-base font-extrabold ${
                     isDark ? "text-daoGoldLight" : "text-daoWineLight"
                   }`}
                 >
                   {formatVND(product.salePrice)}
                 </span>
                 <span
-                  className={`text-xs line-through ${
+                  className={`font-price text-xs font-semibold line-through ${
                     isDark ? "text-white/35" : "text-daoSilverMuted"
                   }`}
                 >
@@ -313,7 +313,7 @@ export default function ProductCard({
               </>
             ) : (
               <span
-                className={`font-display text-base font-semibold ${
+                className={`font-price text-base font-extrabold ${
                   isDark ? "text-white" : "text-daoWineLight"
                 }`}
               >

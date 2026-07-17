@@ -75,13 +75,17 @@ export function isSheetsConfigured(): boolean {
 // P:Màu sắc (không dùng cho dao, để trống)  Q:Kích thước (không dùng cho dao, để trống)
 // R:Đánh giá  S:Đã bán
 // T:Slug  U:Mô tả ngắn  V:Hiển thị (TRUE/FALSE)  W:Nổi bật (TRUE/FALSE)
-// X:Số lượt đánh giá  Y:Thông số kỹ thuật (JSON)  Z:Biến thể cán sắt/cán gỗ (JSON)
+// X:Số lượt đánh giá  Y:Thông số kỹ thuật (JSON)  Z:Tuỳ biến sản phẩm (JSON, tên tự đặt)
+// AA:Video (link Youtube HOẶC URL video đã tải lên Cloudinary)
+// AB:Ghim lên đầu (TRUE/FALSE)
 
 const PRODUCTS_SHEET_NAME = "Products";
-const PRODUCTS_RANGE = `${PRODUCTS_SHEET_NAME}!A2:Z`;
+const PRODUCTS_RANGE = `${PRODUCTS_SHEET_NAME}!A2:AB`;
 
 export interface SheetProductVariant {
-  handleType: "can-sat" | "can-go";
+  /** Định danh nội bộ duy nhất (tự sinh khi tạo ở Admin, không hiển thị cho khách). */
+  id: string;
+  /** Tên tuỳ biến — tự nhập tự do, ví dụ "Cán Sắt", "Cán Gỗ", "Cán Titan"... */
   label: string;
   price: number;
   salePrice?: number;
@@ -123,6 +127,10 @@ export interface SheetProduct {
   reviewCount?: number;
   specs?: SheetProductSpecs;
   variants?: SheetProductVariant[];
+  /** Link Youtube HOẶC URL video đã tải lên (Cloudinary) — chỉ hiển thị ở trang chi tiết sản phẩm. */
+  video?: string;
+  /** TRUE = ghim sản phẩm lên đầu danh sách (trang chủ, danh mục, tìm kiếm...). */
+  isPinned?: boolean;
   /** Số thứ tự dòng thật trên Sheet (dùng nội bộ để update/delete), hàng 1 = header. */
   rowNumber: number;
 }
@@ -172,6 +180,8 @@ function rowToProduct(row: string[], rowNumber: number): SheetProduct {
     reviewCount: row[23] && !Number.isNaN(Number(row[23])) ? Number(row[23]) : undefined,
     specs: parseJsonSafe<SheetProductSpecs>(row[24]),
     variants: parseJsonSafe<SheetProductVariant[]>(row[25]),
+    video: row[26] || undefined,
+    isPinned: toBool(row[27]),
     rowNumber,
   };
 }
@@ -204,6 +214,8 @@ function productToRow(p: Omit<SheetProduct, "rowNumber">): (string | number)[] {
     p.reviewCount ?? "",
     p.specs ? JSON.stringify(p.specs) : "",
     p.variants ? JSON.stringify(p.variants) : "",
+    p.video ?? "",
+    p.isPinned ? "TRUE" : "FALSE",
   ];
 }
 
@@ -219,7 +231,7 @@ export async function readProducts(): Promise<SheetProduct[]> {
 export async function createProduct(
   product: Omit<SheetProduct, "rowNumber">
 ): Promise<void> {
-  await appendRow(`${PRODUCTS_SHEET_NAME}!A:Z`, productToRow(product));
+  await appendRow(`${PRODUCTS_SHEET_NAME}!A:AB`, productToRow(product));
 }
 
 /** Cập nhật sản phẩm theo đúng dòng (rowNumber lấy từ readProducts()). */
@@ -230,7 +242,7 @@ export async function updateProductRow(
   const sheets = google.sheets({ version: "v4", auth: getAuth() });
   await sheets.spreadsheets.values.update({
     spreadsheetId: getSheetId(),
-    range: `${PRODUCTS_SHEET_NAME}!A${rowNumber}:Z${rowNumber}`,
+    range: `${PRODUCTS_SHEET_NAME}!A${rowNumber}:AB${rowNumber}`,
     valueInputOption: "USER_ENTERED",
     requestBody: { values: [productToRow(product)] },
   });

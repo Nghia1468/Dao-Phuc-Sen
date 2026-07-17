@@ -10,7 +10,7 @@ Website dùng Google Sheets làm "database" miễn phí, dễ chỉnh sửa bằ
 ### Tab `Products`
 
 ```
-ID | Tên sản phẩm | Danh mục | Giá | Giá giảm | Mô tả | Ảnh 1 | Ảnh 2 | Ảnh 3 | Ảnh 4 | Ảnh 5 | Tồn kho | Sale | Best Seller | Mới | Màu sắc | Kích thước | Đánh giá | Đã bán | Slug | Mô tả ngắn | Hiển thị | Nổi bật | Số lượt đánh giá | Thông số kỹ thuật (JSON) | Biến thể cán (JSON)
+ID | Tên sản phẩm | Danh mục | Giá | Giá giảm | Mô tả | Ảnh 1 | Ảnh 2 | Ảnh 3 | Ảnh 4 | Ảnh 5 | Tồn kho | Sale | Best Seller | Mới | Màu sắc | Kích thước | Đánh giá | Đã bán | Slug | Mô tả ngắn | Hiển thị | Nổi bật | Số lượt đánh giá | Thông số kỹ thuật (JSON) | Tuỳ biến sản phẩm (JSON) | Video | Ghim lên đầu
 ```
 
 Ghi chú các cột đặc biệt:
@@ -19,9 +19,11 @@ Ghi chú các cột đặc biệt:
 - **Hiển thị**: `TRUE`/`FALSE` — `FALSE` để ẩn sản phẩm khỏi website mà không cần xóa.
 - **Thông số kỹ thuật (JSON)**: dán 1 chuỗi JSON, ví dụ:
   `{"steelType":"Thép nhíp đỏ Nga","bladeLength":"22 cm","handleLength":"13 cm","thickness":"3mm","weight":"550g","origin":"Phúc Sen, Cao Bằng","warranty":"6 tháng"}`
-- **Biến thể cán (JSON)**: dán 1 mảng JSON, ví dụ:
-  `[{"handleType":"can-sat","label":"Cán Sắt","price":330000,"stock":20},{"handleType":"can-go","label":"Cán Gỗ","price":360000,"stock":15}]`
-  Để trống nếu sản phẩm chỉ có 1 phiên bản duy nhất (ví dụ đá mài).
+- **Tuỳ biến sản phẩm (JSON)**: dán 1 mảng JSON, `label` là tên tự đặt tự do (không giới hạn "Cán Sắt/Cán Gỗ" nữa), ví dụ:
+  `[{"id":"cansat","label":"Cán Sắt","price":330000,"stock":20},{"id":"cango","label":"Cán Gỗ","price":360000,"stock":15}]`
+  Để trống nếu sản phẩm chỉ có 1 phiên bản duy nhất (ví dụ đá mài). Nên tạo qua trang Admin thay vì gõ tay JSON.
+- **Video** *(cột mới)*: link Youtube (`https://www.youtube.com/watch?v=...`) HOẶC URL video đã tải lên (Cloudinary) — điền qua trang Admin, không cần tự dán tay. Để trống nếu sản phẩm không có video. Video luôn hiển thị đầu tiên trong gallery ở trang chi tiết sản phẩm.
+- **Ghim lên đầu** *(cột mới)*: `TRUE`/`FALSE` — `TRUE` để đưa sản phẩm lên đầu danh sách ở trang chủ, trang danh mục và kết quả tìm kiếm.
 
 ### Tab `Orders`
 

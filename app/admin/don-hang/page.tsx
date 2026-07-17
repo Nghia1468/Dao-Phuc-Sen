@@ -153,7 +153,7 @@ export default function AdminOrdersPage() {
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-3 border-t border-blush/60 pt-3">
-                <p className="font-display text-lg text-clayDark">{formatVND(o.total)}</p>
+                <p className="font-price text-lg font-extrabold text-clayDark">{formatVND(o.total)}</p>
                 <select
                   value={o.status}
                   disabled={savingId === o.orderId}

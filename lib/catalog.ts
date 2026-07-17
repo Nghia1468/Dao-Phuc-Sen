@@ -57,17 +57,25 @@ function sheetProductToProduct(p: SheetProduct): Product {
     reviewCount: p.reviewCount,
     specs: p.specs,
     variants: p.variants,
+    video: p.video,
+    isPinned: p.isPinned,
   };
 }
 
 let cache: { data: Product[]; expiresAt: number } | null = null;
 const CACHE_TTL_MS = 30_000; // 30s — đủ để tránh gọi Sheets liên tục nhưng vẫn cập nhật nhanh sau khi Admin sửa
 
+/** Đẩy sản phẩm được "Ghim lên đầu" (isPinned) lên đầu mảng — sort ổn định
+ *  (stable sort) nên thứ tự tương đối giữa các sản phẩm còn lại không đổi. */
+function sortPinnedFirst(list: Product[]): Product[] {
+  return [...list].sort((a, b) => Number(!!b.isPinned) - Number(!!a.isPinned));
+}
+
 /** Lấy toàn bộ catalog: ưu tiên Google Sheets, tự rơi về mock nếu có sự cố. */
 export async function getCatalog(): Promise<Product[]> {
   if (!isSheetsConfigured()) {
     const { allProducts } = await import("./data");
-    return allProducts;
+    return sortPinnedFirst(allProducts);
   }
 
   if (cache && cache.expiresAt > Date.now()) {
@@ -76,7 +84,7 @@ export async function getCatalog(): Promise<Product[]> {
 
   try {
     const rows = await readProducts();
-    const mapped = rows.map(sheetProductToProduct);
+    const mapped = sortPinnedFirst(rows.map(sheetProductToProduct));
     cache = { data: mapped, expiresAt: Date.now() + CACHE_TTL_MS };
     return mapped;
   } catch (err) {
@@ -85,7 +93,7 @@ export async function getCatalog(): Promise<Product[]> {
       err
     );
     const { allProducts } = await import("./data");
-    return allProducts;
+    return sortPinnedFirst(allProducts);
   }
 }
 

@@ -71,6 +71,7 @@ const config: Config = {
       fontFamily: {
         display: ["var(--font-playfair)", "serif"],
         body: ["var(--font-inter)", "sans-serif"],
+        price: ["var(--font-poppins)", "sans-serif"],
       },
       borderRadius: {
         soft: "14px",

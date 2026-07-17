@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { X } from "lucide-react";
+import { X, Film, Youtube, Upload, Pin } from "lucide-react";
 import { categories } from "@/lib/data";
 import type { SheetProduct } from "@/lib/googleSheets";
+import { isYouTubeUrl, getYouTubeEmbedUrl } from "@/lib/youtube";
 
 export type ProductFormValues = Omit<SheetProduct, "rowNumber">;
 
@@ -30,6 +31,8 @@ const emptyForm: ProductFormValues = {
   reviewCount: undefined,
   specs: {},
   variants: [],
+  video: "",
+  isPinned: false,
 };
 
 function slugify(value: string): string {
@@ -69,6 +72,11 @@ export default function ProductForm({
   const [error, setError] = useState("");
   const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
   const [uploadError, setUploadError] = useState("");
+  const [videoMode, setVideoMode] = useState<"link" | "upload">(
+    initial?.video && !isYouTubeUrl(initial.video) ? "upload" : "link"
+  );
+  const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [videoError, setVideoError] = useState("");
 
   const setField = <K extends keyof ProductFormValues>(
     key: K,
@@ -112,6 +120,35 @@ export default function ProductForm({
     setUploadingIndex(null);
   };
 
+  const handleVideoFileUpload = async (file?: File) => {
+    if (!file) return;
+    setVideoError("");
+    setUploadingVideo(true);
+    try {
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = () => reject(new Error("Không đọc được file video."));
+        reader.readAsDataURL(file);
+      });
+
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dataUrl, type: "video" }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setVideoError(data.error ?? "Tải video lên thất bại.");
+      } else {
+        setField("video", data.url);
+      }
+    } catch {
+      setVideoError("Tải video lên thất bại.");
+    }
+    setUploadingVideo(false);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -133,7 +170,8 @@ export default function ProductForm({
         .split(",")
         .map((s) => s.trim())
         .filter(Boolean),
-      variants: (values.variants ?? []).filter((v) => v.price > 0),
+      variants: (values.variants ?? []).filter((v) => v.label.trim() !== "" && v.price > 0),
+      video: values.video?.trim() || undefined,
     };
 
     setSaving(true);
@@ -324,6 +362,89 @@ export default function ProductForm({
             )}
           </div>
 
+          <div className="sm:col-span-2">
+            <label className="text-xs text-inkLight flex items-center gap-1.5">
+              <Film size={13} /> Video giới thiệu sản phẩm (không bắt buộc) — chỉ hiển thị ở trang chi tiết sản phẩm
+            </label>
+
+            <div className="flex gap-2 mt-2 mb-2">
+              <button
+                type="button"
+                onClick={() => setVideoMode("link")}
+                className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                  videoMode === "link"
+                    ? "bg-ink text-white border-ink"
+                    : "border-blush text-inkLight hover:border-clay"
+                }`}
+              >
+                <Youtube size={13} /> Link Youtube
+              </button>
+              <button
+                type="button"
+                onClick={() => setVideoMode("upload")}
+                className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                  videoMode === "upload"
+                    ? "bg-ink text-white border-ink"
+                    : "border-blush text-inkLight hover:border-clay"
+                }`}
+              >
+                <Upload size={13} /> Tải video lên
+              </button>
+            </div>
+
+            {videoMode === "link" ? (
+              <input
+                value={values.video ?? ""}
+                onChange={(e) => setField("video", e.target.value)}
+                placeholder="VD: https://www.youtube.com/watch?v=..."
+                className="w-full border border-blush rounded-soft px-3 py-2.5 text-sm focus:outline-none focus:border-clay"
+              />
+            ) : (
+              <div className="flex items-center gap-3">
+                <label className="shrink-0 text-xs px-3 py-2.5 rounded-soft border border-clay text-clayDark hover:bg-clay hover:text-white transition-colors cursor-pointer whitespace-nowrap">
+                  {uploadingVideo ? "Đang tải..." : "Chọn file video"}
+                  <input
+                    type="file"
+                    accept="video/*"
+                    className="hidden"
+                    disabled={uploadingVideo}
+                    onChange={(e) => handleVideoFileUpload(e.target.files?.[0])}
+                  />
+                </label>
+                {values.video && !isYouTubeUrl(values.video) && (
+                  <span className="text-xs text-inkLight truncate">
+                    Đã tải: {values.video.split("/").pop()}
+                  </span>
+                )}
+              </div>
+            )}
+
+            {values.video && (
+              <div className="mt-2.5 flex items-center gap-3">
+                <div className="w-40 aspect-video rounded-soft overflow-hidden bg-black/80 shrink-0">
+                  {isYouTubeUrl(values.video) && getYouTubeEmbedUrl(values.video) ? (
+                    <iframe
+                      src={getYouTubeEmbedUrl(values.video)!}
+                      className="w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    />
+                  ) : (
+                    // eslint-disable-next-line jsx-a11y/media-has-caption
+                    <video src={values.video} className="w-full h-full object-contain" controls />
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setField("video", "")}
+                  className="text-xs text-red-500 hover:underline"
+                >
+                  Xoá video
+                </button>
+              </div>
+            )}
+            {videoError && <p className="text-xs text-red-500 mt-1.5">{videoError}</p>}
+          </div>
+
           <div>
             <label className="text-xs text-inkLight">Tồn kho *</label>
             <input
@@ -384,41 +505,39 @@ export default function ProductForm({
           <div className="sm:col-span-2">
             <div className="flex items-center justify-between mb-1">
               <p className="text-xs text-inkLight">
-                Biến thể cán sắt / cán gỗ (mỗi loại có giá riêng — để trống nếu sản phẩm chỉ có 1 phiên bản, ví dụ đá mài)
+                Tuỳ biến sản phẩm — tự đặt tên (VD: Cán Sắt, Cán Gỗ, Cán Titan...), mỗi loại có giá riêng. Để trống nếu sản phẩm chỉ có 1 phiên bản, ví dụ đá mài
               </p>
               <button
                 type="button"
                 onClick={() =>
                   setField("variants", [
                     ...(values.variants ?? []),
-                    { handleType: "can-sat", label: "Cán Sắt", price: values.price || 0, stock: values.stock || 0 },
+                    {
+                      id: `v${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
+                      label: "",
+                      price: values.price || 0,
+                      stock: values.stock || 0,
+                    },
                   ])
                 }
                 className="text-xs text-clayDark hover:underline shrink-0"
               >
-                + Thêm biến thể
+                + Thêm tuỳ biến
               </button>
             </div>
             <div className="space-y-2">
               {(values.variants ?? []).map((v, i) => (
-                <div key={i} className="flex flex-wrap items-center gap-2 border border-blush rounded-soft p-2">
-                  <select
-                    value={v.handleType}
+                <div key={v.id} className="flex flex-wrap items-center gap-2 border border-blush rounded-soft p-2">
+                  <input
+                    value={v.label}
                     onChange={(e) => {
-                      const handleType = e.target.value as "can-sat" | "can-go";
                       const next = [...(values.variants ?? [])];
-                      next[i] = {
-                        ...next[i],
-                        handleType,
-                        label: handleType === "can-sat" ? "Cán Sắt" : "Cán Gỗ",
-                      };
+                      next[i] = { ...next[i], label: e.target.value };
                       setField("variants", next);
                     }}
-                    className="border border-blush rounded-soft px-2 py-1.5 text-xs bg-white"
-                  >
-                    <option value="can-sat">Cán Sắt</option>
-                    <option value="can-go">Cán Gỗ</option>
-                  </select>
+                    placeholder="Tên tuỳ biến — VD: Cán Sắt"
+                    className="flex-1 min-w-[140px] border border-blush rounded-soft px-2.5 py-1.5 text-xs"
+                  />
                   <input
                     type="number"
                     min={0}
@@ -514,6 +633,15 @@ export default function ProductForm({
                 className="accent-clayDark"
               />
               Nổi bật
+            </label>
+            <label className="flex items-center gap-2 text-sm text-ink">
+              <input
+                type="checkbox"
+                checked={values.isPinned ?? false}
+                onChange={(e) => setField("isPinned", e.target.checked)}
+                className="accent-clayDark"
+              />
+              <Pin size={13} className="text-clayDark" /> Ghim lên đầu trang
             </label>
             <label className="flex items-center gap-2 text-sm text-ink">
               <input

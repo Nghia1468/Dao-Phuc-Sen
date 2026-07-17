@@ -25,7 +25,7 @@ Dao Phúc Sen là website bán dao bếp rèn thủ công (dao chặt, dao thái
 ## 3. Chức năng
 
 **Khách hàng**
-- Trang chủ: Hero Banner slideshow (quản lý qua Admin), 6 danh mục (Dao chặt/Dao thái/Dao bầu/Dao lọc/Combo/Đá mài), sản phẩm mới, mã giảm giá, Flash Sale, Top bán chạy.
+- Trang chủ: Hero Banner slideshow (quản lý qua Admin), 5 danh mục (Dao chặt/Dao thái/Dao bầu-lọc/Combo/Đá mài), sản phẩm mới, mã giảm giá, Flash Sale, Top bán chạy.
 - Trang danh mục: lưới sản phẩm, lọc theo giá/mới/bán chạy/giảm giá/còn hàng, sắp xếp.
 - Trang chi tiết sản phẩm: gallery zoom, **chọn biến thể Cán Sắt / Cán Gỗ (giá đổi theo lựa chọn)**, bảng thông số kỹ thuật (loại thép, chiều dài lưỡi/cán, độ dày, trọng lượng, xuất xứ, bảo hành), đánh giá sao thật kèm ảnh khách hàng, sản phẩm liên quan, Schema Product cho Rich Results.
 - Giỏ hàng: có thể đặt cùng lúc cả cán sắt và cán gỗ của cùng 1 dao (2 dòng riêng biệt).

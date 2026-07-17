@@ -3,7 +3,7 @@
 File này trả lời 3 câu hỏi:
 1. Làm sao lấy dữ liệu từ Google Sheet vào web?
 2. Thêm/sửa/xóa sản phẩm (kèm biến thể cán sắt/cán gỗ) bằng cách nào?
-3. Cột "Thông số kỹ thuật" và "Biến thể cán" hoạt động ra sao?
+3. Cột "Thông số kỹ thuật" và "Tuỳ biến sản phẩm" hoạt động ra sao?
 
 ---
 
@@ -73,13 +73,13 @@ ADMIN_PASSWORD=đặt-mật-khẩu-mạnh-ở-đây
 
 ## 3. Cấu trúc Sheet "Products" mà web yêu cầu
 
-Đổi **hàng 1** của Sheet "Products" thành đúng 26 cột theo thứ tự này (A → Z):
+Đổi **hàng 1** của Sheet "Products" thành đúng 28 cột theo thứ tự này (A → AB):
 
 | Cột | Tên cột | Bắt buộc? | Ghi chú |
 |---|---|---|---|
 | A | ID | ✅ | Duy nhất, không dấu, không trùng. Ví dụ: `dao-chat-ga` |
 | B | Tên sản phẩm | ✅ | |
-| C | Danh mục | ✅ | Phải là 1 trong: `Dao chặt`, `Dao thái`, `Dao bầu`, `Dao lọc`, `Combo`, `Đá mài` |
+| C | Danh mục | ✅ | Phải là 1 trong: `Dao chặt`, `Dao thái`, `Dao bầu/lọc`, `Combo`, `Đá mài`. ⚠️ Danh mục `Dao lọc` đã **gộp chung** vào `Dao bầu/lọc` — nếu Sheet của bạn đang có sản phẩm ghi `Dao lọc` hoặc `Dao bầu`, sửa lại thành đúng `Dao bầu/lọc` để sản phẩm hiện đúng trang danh mục |
 | D | Giá | ✅ | Số, đơn vị đồng, không có dấu phẩy/chấm |
 | E | Giá giảm | ⬜ | Để trống nếu không giảm giá |
 | F | Mô tả | ⬜ | |
@@ -96,26 +96,28 @@ ADMIN_PASSWORD=đặt-mật-khẩu-mạnh-ở-đây
 | Q | Kích thước | ⬜ | Không dùng cho dao — luôn để trống |
 | R | Đánh giá | ⬜ | Số từ 0–5, ví dụ `4.8` |
 | S | Đã bán | ⬜ | Số lượng đã bán |
-| **T** | **Slug** | ⬜ | Đường dẫn URL, ví dụ `dao-chat-ga`. Để trống thì web tự lấy theo cột ID |
-| **U** | **Mô tả ngắn** | ⬜ | Hiển thị ở danh sách sản phẩm |
-| **V** | **Hiển thị** | ⬜ | `TRUE`/`FALSE` — để trống = mặc định hiển thị. `FALSE` để ẩn tạm sản phẩm khỏi web |
-| **W** | **Nổi bật** | ⬜ | `TRUE`/`FALSE` |
-| **X** | **Số lượt đánh giá** | ⬜ | Số nguyên |
-| **Y** | **Thông số kỹ thuật (JSON)** | ⬜ | Xem mục 4 bên dưới |
-| **Z** | **Biến thể cán (JSON)** | ⬜ | Xem mục 4 bên dưới |
+| T | Slug | ⬜ | Đường dẫn URL, ví dụ `dao-chat-ga`. Để trống thì web tự lấy theo cột ID |
+| U | Mô tả ngắn | ⬜ | Hiển thị ở danh sách sản phẩm |
+| V | Hiển thị | ⬜ | `TRUE`/`FALSE` — để trống = mặc định hiển thị. `FALSE` để ẩn tạm sản phẩm khỏi web |
+| W | Nổi bật | ⬜ | `TRUE`/`FALSE` |
+| X | Số lượt đánh giá | ⬜ | Số nguyên |
+| Y | Thông số kỹ thuật (JSON) | ⬜ | Xem mục 4 bên dưới |
+| Z | Tuỳ biến sản phẩm (JSON) | ⬜ | Xem mục 4 bên dưới |
+| **AA** | **Video** | ⬜ | **Cột mới** — link Youtube (`https://www.youtube.com/watch?v=...`) HOẶC URL video đã tải lên qua Cloudinary. Điền qua Admin (chọn "Link Youtube" hoặc "Tải video lên"), không cần tự dán tay. Video luôn hiển thị đầu tiên trong gallery ở trang chi tiết sản phẩm |
+| **AB** | **Ghim lên đầu** | ⬜ | **Cột mới** — `TRUE`/`FALSE`. `TRUE` = đưa sản phẩm lên đầu danh sách ở trang chủ, trang danh mục và kết quả tìm kiếm |
 
 **Ví dụ 1 dòng dữ liệu (hàng 2) — dao có 2 biến thể cán:**
 
 ```
-dao-chat-ga | Dao Chặt Gà | Dao chặt | 330000 | | Dao chặt gà rèn thủ công... | https://...jpg | | | | | 40 | FALSE | TRUE | TRUE | | | 4.9 | 2240 | dao-chat-ga | Dao chặt gà, vịt rèn thủ công | TRUE | TRUE | 128 | {"steelType":"Thép nhíp đỏ Nga","bladeLength":"22-23cm","warranty":"6 tháng"} | [{"handleType":"can-sat","label":"Cán Sắt","price":330000,"stock":22},{"handleType":"can-go","label":"Cán Gỗ","price":360000,"stock":18}]
+dao-chat-ga | Dao Chặt Gà | Dao chặt | 330000 | | Dao chặt gà rèn thủ công... | https://...jpg | | | | | 40 | FALSE | TRUE | TRUE | | | 4.9 | 2240 | dao-chat-ga | Dao chặt gà, vịt rèn thủ công | TRUE | TRUE | 128 | {"steelType":"Thép nhíp đỏ Nga","bladeLength":"22-23cm","warranty":"6 tháng"} | [{"id":"cansat","label":"Cán Sắt","price":330000,"stock":22},{"id":"cango","label":"Cán Gỗ","price":360000,"stock":18}] | https://www.youtube.com/watch?v=xxxxxxx | FALSE
 ```
 
 **Ví dụ 1 dòng không có biến thể (đá mài — chỉ 1 phiên bản):**
 
 ```
-da-mai-01 | Đá Mài Dao Phúc Sen | Đá mài | 120000 | | Đá mài 2 mặt... | https://...jpg | | | | | 60 | FALSE | FALSE | TRUE | | | 4.6 | 340 | da-mai-dao-phuc-sen | Đá mài 2 mặt thô/mịn | TRUE | FALSE | 22 | {} |
+da-mai-01 | Đá Mài Dao Phúc Sen | Đá mài | 120000 | | Đá mài 2 mặt... | https://...jpg | | | | | 60 | FALSE | FALSE | TRUE | | | 4.6 | 340 | da-mai-dao-phuc-sen | Đá mài 2 mặt thô/mịn | TRUE | FALSE | 22 | {} | | | TRUE
 ```
-→ Cột **Z (Biến thể cán)** để **trống**.
+→ Cột **Z (Tuỳ biến sản phẩm)** và **AA (Video)** để **trống**; cột **AB (Ghim lên đầu)** = `TRUE` để ví dụ sản phẩm này được ghim.
 
 ---
 
@@ -182,12 +184,12 @@ Slug | Tiêu đề | Mô tả ngắn | Nội dung | Ảnh bìa | Tác giả | Ng
 
 ---
 
-## 4. Cột "Thông số kỹ thuật" và "Biến thể cán" hoạt động ra sao?
+## 4. Cột "Thông số kỹ thuật" và "Tuỳ biến sản phẩm" hoạt động ra sao?
 
 Thay vì tạo hẳn 1 Sheet phụ riêng cho biến thể (phức tạp hơn nhiều để quản lý bằng tay), 2 cột **Y** và **Z** dùng định dạng JSON gọn trong 1 ô — vẫn sửa được trực tiếp trên Sheet, nhưng dễ dùng nhất là qua trang **`/admin/san-pham`** (có form nhập từng ô riêng, không cần tự gõ JSON).
 
 1. **Cột Y — Thông số kỹ thuật:** 1 object JSON với các khóa `steelType`, `bladeLength`, `handleLength`, `thickness`, `weight`, `handleMaterial`, `origin`, `warranty` — khóa nào không có cứ bỏ qua.
-2. **Cột Z — Biến thể cán:** 1 mảng JSON, mỗi phần tử có `handleType` (`"can-sat"` hoặc `"can-go"`), `label`, `price`, `salePrice` (tuỳ chọn), `stock` (tuỳ chọn). **Để trống nếu sản phẩm chỉ có 1 phiên bản duy nhất** (ví dụ đá mài) — khi đó trang chi tiết sản phẩm sẽ không hiển thị khối chọn cán, chỉ dùng giá ở cột D/E.
+2. **Cột Z — Biến thể (tuỳ biến sản phẩm):** 1 mảng JSON, mỗi phần tử có `id` (chuỗi tự đặt, duy nhất trong sản phẩm — không hiển thị cho khách), `label` (**tên tuỳ biến — tự nhập tự do**, ví dụ "Cán Sắt", "Cán Gỗ", "Cán Titan", "Size 20cm"...), `price`, `salePrice` (tuỳ chọn), `stock` (tuỳ chọn). **Để trống nếu sản phẩm chỉ có 1 phiên bản duy nhất** (ví dụ đá mài) — khi đó trang chi tiết sản phẩm sẽ không hiển thị khối chọn tuỳ biến, chỉ dùng giá ở cột D/E. Nên tạo/sửa qua trang Admin (`/admin/san-pham`) thay vì gõ tay JSON để tránh sai định dạng.
 3. **Cách web xử lý khi ô trống:** đọc thành `undefined`/mảng rỗng, trang chi tiết sản phẩm (`components/ProductDetailView.tsx`) tự ẩn khối "Loại cán" nếu không có biến thể nào.
 4. **Giỏ hàng hỗ trợ đặt cùng lúc 2 biến thể của cùng 1 dao** (ví dụ Dao chặt gà cán sắt x1 + Dao chặt gà cán gỗ x2) — mỗi biến thể là 1 dòng riêng trong giỏ, giá tính đúng theo biến thể đã chọn.
 5. Khuyến nghị: **luôn thêm/sửa sản phẩm qua trang Admin** thay vì gõ tay JSON trực tiếp trên Sheet, để tránh lỗi cú pháp JSON làm sản phẩm không hiển thị đúng.
@@ -227,10 +229,16 @@ Trang hiển thị bảng tất cả sản phẩm đọc trực tiếp từ Shee
 
 **Thêm sản phẩm mới:**
 1. Bấm **"Thêm sản phẩm"**.
-2. Điền form: ID (duy nhất, không dấu — ví dụ `dao-chat-ga-2`), Tên, Slug (tự gợi ý theo Tên), Danh mục, Giá, Giá giảm (nếu có), Mô tả ngắn, Mô tả, tối đa 5 ảnh — **bấm nút "Tải ảnh" để upload trực tiếp từ máy lên Cloudinary**, Tồn kho, Đánh giá, **Thông số kỹ thuật** (8 ô: loại thép, chiều dài lưỡi/cán, độ dày, trọng lượng, chất liệu cán, xuất xứ, bảo hành), **Biến thể cán sắt/cán gỗ** (bấm "+ Thêm biến thể", mỗi biến thể có giá + giá giảm + tồn kho riêng — để trống nếu sản phẩm chỉ có 1 phiên bản như đá mài), và các checkbox Sale/Best Seller/Mới/Nổi bật/Hiển thị công khai.
+2. Điền form: ID (duy nhất, không dấu — ví dụ `dao-chat-ga-2`), Tên, Slug (tự gợi ý theo Tên), Danh mục, Giá, Giá giảm (nếu có), Mô tả ngắn, Mô tả, tối đa 5 ảnh — **bấm nút "Tải ảnh" để upload trực tiếp từ máy lên Cloudinary**, Tồn kho, Đánh giá, **Thông số kỹ thuật** (8 ô: loại thép, chiều dài lưỡi/cán, độ dày, trọng lượng, chất liệu cán, xuất xứ, bảo hành), **Tuỳ biến sản phẩm** (bấm "+ Thêm tuỳ biến", tự đặt tên cho mỗi tuỳ biến — ví dụ "Cán Sắt", "Cán Gỗ", "Cán Titan"... — mỗi tuỳ biến có giá + giá giảm + tồn kho riêng — để trống nếu sản phẩm chỉ có 1 phiên bản như đá mài), và các checkbox Sale/Best Seller/Mới/Nổi bật/Hiển thị công khai.
 3. Bấm **"Thêm sản phẩm"** → ghi thêm 1 dòng mới vào cuối Sheet "Products" → sản phẩm xuất hiện ngay trên web.
 
 **Sửa / Xóa / Ẩn:** bấm biểu tượng bút chì để sửa (ID không sửa được), biểu tượng thùng rác để xóa hẳn khỏi Sheet (có xác nhận trước khi xóa). Muốn **ẩn tạm** sản phẩm mà không xóa dữ liệu, bỏ tick "Hiển thị công khai" khi sửa.
+
+**Video sản phẩm (mới):** trong form Thêm/Sửa sản phẩm, chọn **"Link Youtube"** để dán link, hoặc **"Tải video lên"** để chọn file từ máy (upload qua Cloudinary, giới hạn 80MB). Video hiển thị đầu tiên trong gallery ở trang chi tiết sản phẩm, khách bấm vào thumbnail có icon ▶ để xem.
+
+**Ghim lên đầu (mới):** tick ô "📌 Ghim lên đầu trang" trong form để đưa sản phẩm lên vị trí đầu tiên ở trang chủ, trang danh mục và kết quả tìm kiếm — hữu ích khi muốn ưu tiên quảng bá 1 sản phẩm cụ thể. Sản phẩm được ghim có nhãn "📌 Ghim" trong bảng quản lý.
+
+**Font giá sản phẩm:** toàn bộ nơi hiển thị giá tiền trên website (thẻ sản phẩm, trang chi tiết, giỏ hàng, thanh toán, trang Admin...) dùng font **Montserrat ExtraBold** để nổi bật, thống nhất.
 
 ### 5.4. Quản lý đơn hàng (`/admin/don-hang`)
 

@@ -119,7 +119,7 @@ export default function AdminCustomersPage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-clayDark font-display">{formatVND(c.totalSpent)}</p>
+                  <p className="text-clayDark font-price font-extrabold">{formatVND(c.totalSpent)}</p>
                   <p className="text-xs text-inkLight">{c.orders.length} đơn hàng</p>
                 </div>
               </button>
@@ -132,7 +132,7 @@ export default function AdminCustomersPage() {
                         <p className="text-ink">{o.orderId} · {o.status}</p>
                         <p className="text-xs text-inkLight line-clamp-1">{o.productsSummary}</p>
                       </div>
-                      <span className="text-inkLight text-xs shrink-0 ml-3">
+                      <span className="font-price font-semibold text-inkLight text-xs shrink-0 ml-3">
                         {formatVND(o.total)}
                       </span>
                     </li>

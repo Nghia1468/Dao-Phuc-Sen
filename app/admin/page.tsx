@@ -58,7 +58,7 @@ export default async function AdminDashboardPage() {
             </div>
             <p className="text-xs text-inkLight">Doanh thu (trừ đơn hủy)</p>
           </div>
-          <p className="font-display text-xl sm:text-2xl text-ink">{formatVND(revenue)}</p>
+          <p className="font-price text-xl sm:text-2xl font-extrabold text-ink">{formatVND(revenue)}</p>
         </div>
         <div className="bg-white rounded-softLg p-5 shadow-whisper">
           <div className="flex items-center gap-3 mb-2">

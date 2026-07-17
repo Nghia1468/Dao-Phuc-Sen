@@ -131,16 +131,16 @@ export default function AdminProductsPage() {
                       <p className="text-xs text-inkLight">{p.id}</p>
                     </td>
                     <td className="px-4 py-3 text-inkLight">{p.category}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 font-price">
                       {p.salePrice ? (
                         <>
-                          <span className="text-clayDark">{formatVND(p.salePrice)}</span>
-                          <span className="block text-xs text-inkLight line-through">
+                          <span className="font-extrabold text-clayDark">{formatVND(p.salePrice)}</span>
+                          <span className="block text-xs font-semibold text-inkLight line-through">
                             {formatVND(p.price)}
                           </span>
                         </>
                       ) : (
-                        formatVND(p.price)
+                        <span className="font-extrabold">{formatVND(p.price)}</span>
                       )}
                     </td>
                     <td className="px-4 py-3 text-inkLight">{p.stock}</td>
@@ -159,6 +159,11 @@ export default function AdminProductsPage() {
                         {p.isNew && (
                           <span className="text-[10px] bg-blush text-clayDark px-2 py-0.5 rounded-full">
                             Mới
+                          </span>
+                        )}
+                        {p.isPinned && (
+                          <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                            📌 Ghim
                           </span>
                         )}
                       </div>

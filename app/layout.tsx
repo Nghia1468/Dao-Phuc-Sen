@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Inter, Cormorant_Garamond, Be_Vietnam_Pro } from "next/font/google";
+import { Playfair_Display, Inter, Cormorant_Garamond, Be_Vietnam_Pro, Poppins } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
 import { ToastProvider } from "@/lib/toast-context";
@@ -43,6 +43,27 @@ const beVietnam = Be_Vietnam_Pro({
   variable: "--font-be-vietnam",
   display: "swap",
   preload: false,
+});
+
+// Font riêng cho GIÁ SẢN PHẨM & THÔNG TIN ĐI KÈM GIÁ ở toàn bộ site (thẻ sản
+// phẩm, trang chi tiết, giỏ hàng, thanh toán, admin...) — dùng qua class
+// Tailwind `font-price`. Nạp sẵn 2 độ đậm (600 & 800) để khớp đúng với
+// `font-semibold`/`font-extrabold` đang dùng trong code — nếu chỉ nạp 1 độ
+// đậm, trình duyệt phải tự "giả lập" các độ đậm còn lại (hoặc rơi về font dự
+// phòng), khiến chữ bị lệch cỡ trông như to nhỏ không đều dù cùng 1 class.
+//
+// LƯU Ý: Poppins không có sẵn subset "vietnamese" trên Google Fonts (chỉ có
+// latin/latin-ext/devanagari), nên KHÔNG dùng class `font-price` cho chữ
+// tiếng Việt có dấu (vd: "Miễn phí") — chỉ dùng cho số tiền/ký hiệu (0-9, ₫,
+// dấu chấm/phẩy, dấu -) vì đó vốn là mục đích của font này. Nếu 1 chữ tiếng
+// Việt có dấu lỡ dính class này, nó sẽ rơi về font dự phòng khác kích cỡ,
+// trông giống lỗi "chữ to chữ nhỏ".
+const poppins = Poppins({
+  subsets: ["latin", "latin-ext"],
+  weight: ["600", "800"],
+  variable: "--font-poppins",
+  display: "swap",
+  preload: true,
 });
 
 // Metadata mặc định — mỗi trang con (trang chủ, danh mục, sản phẩm, blog...)
@@ -99,7 +120,7 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${playfair.variable} ${inter.variable} ${cormorant.variable} ${beVietnam.variable}`}
+      className={`${playfair.variable} ${inter.variable} ${cormorant.variable} ${beVietnam.variable} ${poppins.variable}`}
     >
       <head>
         <JsonLd data={organizationSchema()} />

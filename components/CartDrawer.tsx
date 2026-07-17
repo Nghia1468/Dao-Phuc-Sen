@@ -95,7 +95,7 @@ export default function CartDrawer() {
                               <Plus size={12} />
                             </button>
                           </div>
-                          <span className="text-sm font-semibold text-daoWhite">
+                          <span className="font-price text-sm font-semibold text-daoWhite">
                             {formatVND(item.price * item.quantity)}
                           </span>
                         </div>
@@ -117,7 +117,7 @@ export default function CartDrawer() {
               <div className="border-t border-daoBorder px-6 py-5 shrink-0 space-y-4">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-daoSilver">Tạm tính</span>
-                  <span className="font-display text-lg text-daoWhite">
+                  <span className="font-price text-lg font-extrabold text-daoWhite">
                     {formatVND(subtotal)}
                   </span>
                 </div>

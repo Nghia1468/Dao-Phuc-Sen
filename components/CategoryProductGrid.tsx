@@ -32,7 +32,7 @@ export default function CategoryProductGrid({
 }) {
   const [filter, setFilter] = useState<FilterKey>("all");
   const [sort, setSort] = useState<SortKey>("az");
-  const [maxPrice, setMaxPrice] = useState<number>(1000000);
+  const [maxPrice, setMaxPrice] = useState<number>(10000000);
   const [page, setPage] = useState(1);
   const [sortOpen, setSortOpen] = useState(false);
 
@@ -95,8 +95,8 @@ export default function CategoryProductGrid({
             <input
               type="range"
               min={50000}
-              max={1000000}
-              step={10000}
+              max={10000000}
+              step={100000}
               value={maxPrice}
               onChange={(e) => {
                 setMaxPrice(Number(e.target.value));

@@ -8,15 +8,14 @@
 // cần đổi vì luôn chỉ import qua lib/catalog.ts (server) hoặc file này.
 // ---------------------------------------------------------------------------
 
-/** Loại cán dao — mỗi sản phẩm dao có thể bán 2 biến thể cán khác nhau, giá riêng. */
-export type HandleType = "can-sat" | "can-go";
-
 export interface ProductVariant {
-  handleType: HandleType;
+  /** Định danh nội bộ duy nhất (tự sinh khi tạo, không hiển thị cho khách). */
+  id: string;
+  /** Tên tuỳ biến — tự nhập tự do, ví dụ "Cán Sắt", "Cán Gỗ", "Cán Titan", "23cm"... */
   label: string;
   price: number;
   salePrice?: number;
-  /** Tồn kho riêng theo từng loại cán — để trống nếu dùng chung tồn kho sản phẩm. */
+  /** Tồn kho riêng theo từng tuỳ biến — để trống nếu dùng chung tồn kho sản phẩm. */
   stock?: number;
 }
 
@@ -54,8 +53,12 @@ export interface Product {
   sold?: number;
   reviewCount?: number;
   specs?: ProductSpecs;
-  /** Biến thể cán sắt / cán gỗ — mỗi loại có giá riêng. Bỏ trống nếu sản phẩm chỉ có 1 phiên bản (ví dụ đá mài). */
+  /** Tuỳ biến sản phẩm — tên tự đặt (VD: Cán Sắt, Cán Gỗ, Cán Titan...), mỗi loại có giá riêng. Bỏ trống nếu sản phẩm chỉ có 1 phiên bản (ví dụ đá mài). */
   variants?: ProductVariant[];
+  /** Link Youtube HOẶC URL video đã tải lên (Cloudinary) — chỉ hiển thị ở trang chi tiết sản phẩm, luôn đứng đầu gallery. */
+  video?: string;
+  /** TRUE = ghim sản phẩm lên đầu danh sách (trang chủ, danh mục, tìm kiếm...). */
+  isPinned?: boolean;
   /** Giữ lại để tương thích — không dùng cho dao (không có màu/size). */
   colors?: string[];
   sizes?: string[];
@@ -122,8 +125,7 @@ const DEFAULT_SPECS: ProductSpecs = {
 export const categories: Category[] = [
   { id: "c1", name: "Dao chặt", slug: "dao-chat", image: IMG.daoChatGa, icon: "bi-lightning-charge" },
   { id: "c2", name: "Dao thái", slug: "dao-thai", image: IMG.daoThaiThit, icon: "bi-crop" },
-  { id: "c3", name: "Dao bầu", slug: "dao-bau", image: IMG.daoBauLocThai, icon: "bi-droplet" },
-  { id: "c4", name: "Dao lọc", slug: "dao-loc", image: IMG.daoBauLocGaVit, icon: "bi-scissors" },
+  { id: "c3", name: "Dao bầu/lọc", slug: "dao-bau", image: IMG.daoBauLocThai, icon: "bi-droplet" },
   { id: "c5", name: "Combo", slug: "combo", image: IMG.combo5San, icon: "bi-box-seam" },
   { id: "c6", name: "Đá mài", slug: "da-mai", image: IMG.bgForge, icon: "bi-hexagon" },
 ];
@@ -241,8 +243,8 @@ export const products: Product[] = [
       weight: "500 – 600 gram",
     },
     variants: [
-      { handleType: "can-sat", label: "Cán Sắt", price: 330000, stock: 22 },
-      { handleType: "can-go", label: "Cán Gỗ", price: 360000, stock: 18 },
+      { id: "can-sat", label: "Cán Sắt", price: 330000, stock: 22 },
+      { id: "can-go", label: "Cán Gỗ", price: 360000, stock: 18 },
     ],
   },
   {
@@ -272,8 +274,8 @@ export const products: Product[] = [
       weight: "700 – 800 gram",
     },
     variants: [
-      { handleType: "can-sat", label: "Cán Sắt", price: 380000, stock: 16 },
-      { handleType: "can-go", label: "Cán Gỗ", price: 410000, stock: 14 },
+      { id: "can-sat", label: "Cán Sắt", price: 380000, stock: 16 },
+      { id: "can-go", label: "Cán Gỗ", price: 410000, stock: 14 },
     ],
   },
   {
@@ -303,8 +305,8 @@ export const products: Product[] = [
       weight: "250 – 300 gram",
     },
     variants: [
-      { handleType: "can-sat", label: "Cán Sắt", price: 285000, stock: 20 },
-      { handleType: "can-go", label: "Cán Gỗ", price: 300000, stock: 15 },
+      { id: "can-sat", label: "Cán Sắt", price: 285000, stock: 20 },
+      { id: "can-go", label: "Cán Gỗ", price: 300000, stock: 15 },
     ],
   },
   {
@@ -334,15 +336,15 @@ export const products: Product[] = [
       weight: "200 – 300 gram",
     },
     variants: [
-      { handleType: "can-sat", label: "Cán Sắt", price: 200000, stock: 25 },
-      { handleType: "can-go", label: "Cán Gỗ", price: 230000, stock: 20 },
+      { id: "can-sat", label: "Cán Sắt", price: 200000, stock: 25 },
+      { id: "can-go", label: "Cán Gỗ", price: 230000, stock: 20 },
     ],
   },
   {
     id: "db-locthai",
     slug: "dao-bau-loc-thai",
     name: "Dao Bầu Lọc Thái",
-    category: "Dao bầu",
+    category: "Dao bầu/lọc",
     price: 265000,
     shortDescription: "Dao bầu đa năng — lọc, thái đều được, cán chắc tay.",
     description:
@@ -365,15 +367,15 @@ export const products: Product[] = [
       weight: "250 – 350 gram",
     },
     variants: [
-      { handleType: "can-sat", label: "Cán Sắt", price: 265000, stock: 20 },
-      { handleType: "can-go", label: "Cán Gỗ", price: 285000, stock: 18 },
+      { id: "can-sat", label: "Cán Sắt", price: 265000, stock: 20 },
+      { id: "can-go", label: "Cán Gỗ", price: 285000, stock: 18 },
     ],
   },
   {
     id: "db-locgavit",
     slug: "dao-loc-ga-vit",
     name: "Dao Bầu Lọc Gà/Vịt",
-    category: "Dao lọc",
+    category: "Dao bầu/lọc",
     price: 265000,
     shortDescription: "Dao lọc chuyên dụng cho gà, vịt — lưỡi nhỏ, thao tác linh hoạt.",
     description:
@@ -396,8 +398,8 @@ export const products: Product[] = [
       weight: "200 – 300 gram",
     },
     variants: [
-      { handleType: "can-sat", label: "Cán Sắt", price: 265000, salePrice: 239000, stock: 14 },
-      { handleType: "can-go", label: "Cán Gỗ", price: 385000, stock: 12 },
+      { id: "can-sat", label: "Cán Sắt", price: 265000, salePrice: 239000, stock: 14 },
+      { id: "can-go", label: "Cán Gỗ", price: 385000, stock: 12 },
     ],
   },
   {
@@ -423,8 +425,8 @@ export const products: Product[] = [
       handleMaterial: "Cán sắt hoặc cán gỗ (đồng bộ cả 3 dao trong combo)",
     },
     variants: [
-      { handleType: "can-sat", label: "Cán Sắt", price: 840000, stock: 10 },
-      { handleType: "can-go", label: "Cán Gỗ", price: 940000, stock: 10 },
+      { id: "can-sat", label: "Cán Sắt", price: 840000, stock: 10 },
+      { id: "can-go", label: "Cán Gỗ", price: 940000, stock: 10 },
     ],
   },
   {
@@ -452,8 +454,8 @@ export const products: Product[] = [
       handleMaterial: "Cán sắt hoặc cán gỗ (đồng bộ cả 5 dao trong combo)",
     },
     variants: [
-      { handleType: "can-sat", label: "Cán Sắt", price: 1300000, stock: 8 },
-      { handleType: "can-go", label: "Cán Gỗ", price: 1450000, stock: 7 },
+      { id: "can-sat", label: "Cán Sắt", price: 1300000, stock: 8 },
+      { id: "can-go", label: "Cán Gỗ", price: 1450000, stock: 7 },
     ],
   },
   {

@@ -134,15 +134,15 @@ export default function QuickViewModal({
                 <div className="flex flex-wrap items-center gap-3 mb-4">
                   {effectiveSalePrice ? (
                     <>
-                      <span className="font-display text-lg sm:text-2xl text-daoWineLight">
+                      <span className="font-price text-lg sm:text-2xl font-extrabold text-daoWineLight">
                         {formatVND(effectiveSalePrice)}
                       </span>
-                      <span className="text-sm text-daoSilver line-through">
+                      <span className="font-price text-sm font-semibold text-daoSilver line-through">
                         {formatVND(effectivePrice)}
                       </span>
                     </>
                   ) : (
-                    <span className="font-display text-lg sm:text-2xl text-daoWhite">
+                    <span className="font-price text-lg sm:text-2xl font-extrabold text-daoWhite">
                       {formatVND(effectivePrice)}
                     </span>
                   )}
@@ -163,12 +163,12 @@ export default function QuickViewModal({
                 {hasVariants && (
                   <div className="mb-5">
                     <p className="text-sm text-daoWhite mb-2">
-                      Loại cán: <span className="font-medium">{selectedVariant?.label}</span>
+                      Tuỳ chọn: <span className="font-medium">{selectedVariant?.label}</span>
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {product.variants!.map((v, i) => (
                         <button
-                          key={v.handleType}
+                          key={v.id}
                           onClick={() => setVariantIndex(i)}
                           className={`px-4 py-2 text-xs rounded-full border-2 transition-colors ${
                             variantIndex === i
@@ -176,7 +176,7 @@ export default function QuickViewModal({
                               : "border-daoBorder text-daoWhite hover:border-daoWine"
                           }`}
                         >
-                          {v.label} · {formatVND(v.salePrice ?? v.price)}
+                          {v.label} · <span className="font-price font-semibold">{formatVND(v.salePrice ?? v.price)}</span>
                         </button>
                       ))}
                     </div>

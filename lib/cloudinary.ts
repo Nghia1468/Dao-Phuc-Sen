@@ -51,3 +51,25 @@ export async function uploadProductImage(
   });
   return result.secure_url;
 }
+
+/**
+ * Upload 1 video (dạng base64 data URL, ví dụ "data:video/mp4;base64,....")
+ * lên Cloudinary. Trả về URL công khai. Dùng cho video giới thiệu sản phẩm ở
+ * trang Admin — thay thế cho việc dán link Youtube.
+ */
+export async function uploadProductVideo(
+  dataUrl: string,
+  folder = "dao-phuc-sen/product-videos"
+): Promise<string> {
+  if (!isCloudinaryConfigured()) {
+    throw new Error(
+      "Chưa cấu hình Cloudinary (CLOUDINARY_CLOUD_NAME / CLOUDINARY_API_KEY / CLOUDINARY_API_SECRET) trong .env.local"
+    );
+  }
+  configure();
+  const result = await cloudinary.uploader.upload(dataUrl, {
+    folder,
+    resource_type: "video",
+  });
+  return result.secure_url;
+}

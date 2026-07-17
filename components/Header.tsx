@@ -14,8 +14,7 @@ const NAV_ITEMS = [
   { label: "Sale", href: "/sale" },
   { label: "Dao chặt", href: "/danh-muc/dao-chat", megaSlug: "dao-chat" },
   { label: "Dao thái", href: "/danh-muc/dao-thai", megaSlug: "dao-thai" },
-  { label: "Dao bầu", href: "/danh-muc/dao-bau", megaSlug: "dao-bau" },
-  { label: "Dao lọc", href: "/danh-muc/dao-loc" },
+  { label: "Dao bầu/lọc", href: "/danh-muc/dao-bau", megaSlug: "dao-bau" },
   { label: "Combo", href: "/danh-muc/combo" },
   { label: "Đá mài", href: "/danh-muc/da-mai" },
   { label: "Giới thiệu", href: "/gioi-thieu" },
@@ -236,7 +235,7 @@ export default function Header() {
                     <p className="text-xs text-daoWhite line-clamp-1 group-hover:text-daoWineLight transition-colors">
                       {p.name}
                     </p>
-                    <p className="text-xs text-daoWineLight mt-0.5">
+                    <p className="font-price text-xs font-semibold text-daoWineLight mt-0.5">
                       {formatVND(p.salePrice ?? p.price)}
                     </p>
                   </Link>
