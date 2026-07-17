@@ -9,7 +9,7 @@ import Footer from "@/components/Footer";
 
 function SuccessContent() {
   const params = useSearchParams();
-  const orderId = params.get("orderId");
+  const orderId = params?.get("orderId") ?? null;
 
   return (
     <section className="pt-40 pb-24 px-5 md:px-8">

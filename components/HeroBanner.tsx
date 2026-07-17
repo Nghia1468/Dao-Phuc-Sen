@@ -44,6 +44,7 @@ export default function HeroBanner({ banners }: { banners: Banner[] }) {
                 sizes="100vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/10 to-black/5" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />     
 
               <div className="absolute inset-0 flex items-center">
                 <div className="mx-auto max-w-7xl w-full px-6 md:px-12">
@@ -54,13 +55,13 @@ export default function HeroBanner({ banners }: { banners: Banner[] }) {
                     transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
                     className="max-w-md text-white"
                   >
-                    <p className="uppercase tracking-widest2 text-xs mb-4 text-daoSilverMuted">
+                    <p className="text-sm mb-3 text-white/70">
                       Bộ sưu tập mới
                     </p>
-                    <h1 className="font-display text-4xl md:text-5xl leading-tight mb-4">
+                    <h1 className="text-2xl md:text-3xl font-semibold mb-3">
                       {banner.title}
                     </h1>
-                    <p className="text-sm md:text-base font-light mb-8 text-white/85">
+                    <p className="text-base mb-8 text-white/85">
                       {banner.subtitle}
                     </p>
                     <div className="flex flex-wrap gap-3">

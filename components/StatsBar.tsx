@@ -11,8 +11,8 @@ export default function StatsBar() {
       <div className="mx-auto max-w-7xl px-5 md:px-8 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
         {STATS.map((s) => (
           <div key={s.label} className="text-center">
-            <p className="font-display text-4xl md:text-5xl text-daoWineLight">{s.value}</p>
-            <p className="mt-2 text-xs uppercase tracking-widest2 text-daoSilverMuted">
+            <p className="font-sans text-4xl md:text-5xl text-white">{s.value}</p>
+            <p className="mt-2 text-sm text-white/80 normal-case tracking-normal font-normal">
               {s.label}
             </p>
           </div>

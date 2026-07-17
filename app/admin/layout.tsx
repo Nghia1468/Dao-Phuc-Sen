@@ -26,7 +26,7 @@ const NAV = [
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
   const router = useRouter();
 
   // Trang đăng nhập hiển thị độc lập, không có sidebar/header quản trị.
