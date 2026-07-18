@@ -7,6 +7,8 @@ import CartDrawer from "@/components/CartDrawer";
 import FlashSalePopup from "@/components/FlashSalePopup";
 import JsonLd from "@/components/seo/JsonLd";
 import AnalyticsScripts, { GtmNoScript } from "@/components/seo/AnalyticsScripts";
+import RouteChangeTracker from "@/components/seo/RouteChangeTracker";
+import SocialProof from "@/components/SocialProof";
 import { organizationSchema, localBusinessSchema } from "@/lib/schema";
 import { SITE } from "@/lib/seo";
 
@@ -129,11 +131,13 @@ export default function RootLayout({
       <body className="font-body antialiased bg-white text-ink">
         <AnalyticsScripts />
         <GtmNoScript />
+        <RouteChangeTracker />
         <ToastProvider>
           <CartProvider>
             {children}
             <CartDrawer />
             <FlashSalePopup />
+            <SocialProof />
           </CartProvider>
         </ToastProvider>
       </body>

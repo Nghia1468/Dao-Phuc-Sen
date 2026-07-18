@@ -32,11 +32,13 @@ export const SITE = {
     zalo: "https://zalo.me/0934596198",
     instagram: "",
   },
-  // Google Analytics 4 / Google Tag Manager — điền ID thật vào .env.local:
+  // Google Analytics 4 / Google Tag Manager / Meta Pixel — điền ID thật vào .env.local:
   // NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
   // NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
+  // NEXT_PUBLIC_FB_PIXEL_ID=XXXXXXXXXXXXXXX
   gaId: process.env.NEXT_PUBLIC_GA_ID,
   gtmId: process.env.NEXT_PUBLIC_GTM_ID,
+  fbPixelId: process.env.NEXT_PUBLIC_FB_PIXEL_ID,
 };
 
 /** Ghép URL tuyệt đối từ 1 đường dẫn tương đối, dùng cho canonical/OG/schema. */

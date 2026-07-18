@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import type { Product, ProductVariant } from "./data";
+import { trackAddToCart } from "./tracking";
 
 export interface CartItem {
   /** id duy nhất trong giỏ = mã sản phẩm + id tuỳ biến (để 1 sản phẩm có thể nằm nhiều dòng theo từng tuỳ biến đã chọn). */
@@ -72,6 +73,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         variant ?? (product.variants && product.variants.length > 0 ? product.variants[0] : undefined);
       const lineId = chosen ? `${product.id}__${chosen.id}` : product.id;
       const price = chosen ? chosen.salePrice ?? chosen.price : product.salePrice ?? product.price;
+
+      // GA4 Ecommerce: add_to_cart — đặt đúng ở điểm chạm DUY NHẤT này (mọi nút
+      // "Thêm vào giỏ"/"Mua ngay" ở ProductCard/QuickView/ProductDetailView đều
+      // gọi addItem()) để không bao giờ bắn trùng event dù có nhiều nút khác nhau.
+      trackAddToCart({
+        item_id: product.id,
+        item_name: product.name,
+        item_category: product.category,
+        price,
+        quantity,
+      });
 
       setItems((prev) => {
         const existing = prev.find((i) => i.id === lineId);

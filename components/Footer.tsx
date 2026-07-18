@@ -1,5 +1,8 @@
+"use client";
+
 import { Facebook, MapPin, Mail, Phone, Clock } from "lucide-react";
 import { SITE } from "@/lib/seo";
+import { trackLead } from "@/lib/tracking";
 
 export default function Footer() {
   return (
@@ -17,7 +20,7 @@ export default function Footer() {
             <a href={SITE.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="h-9 w-9 flex items-center justify-center rounded-full bg-daoDark text-daoWhite hover:bg-daoWine hover:text-white transition-colors">
               <Facebook size={16} strokeWidth={1.5} />
             </a>
-            <a href={SITE.social.zalo} target="_blank" rel="noopener noreferrer" aria-label="Zalo" className="h-9 w-9 flex items-center justify-center rounded-full bg-daoDark text-daoWhite hover:bg-daoWine hover:text-white transition-colors text-[11px] font-semibold">
+            <a href={SITE.social.zalo} target="_blank" rel="noopener noreferrer" aria-label="Zalo" onClick={() => trackLead("zalo")} className="h-9 w-9 flex items-center justify-center rounded-full bg-daoDark text-daoWhite hover:bg-daoWine hover:text-white transition-colors text-[11px] font-semibold">
               Zalo
             </a>
           </div>
@@ -58,7 +61,7 @@ export default function Footer() {
             </li>
             <li className="flex items-center gap-2">
               <Phone size={15} className="text-daoWineLight" strokeWidth={1.5} />
-              <a href={`tel:${SITE.phone}`}>{SITE.phone}</a>
+              <a href={`tel:${SITE.phone}`} onClick={() => trackLead("phone")}>{SITE.phone}</a>
             </li>
             <li className="flex items-center gap-2">
               <Mail size={15} className="text-daoWineLight" strokeWidth={1.5} />

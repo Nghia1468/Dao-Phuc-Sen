@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Ticket, X } from "lucide-react";
@@ -10,6 +10,7 @@ import VoucherListModal from "@/components/VoucherListModal";
 import { useCart } from "@/lib/cart-context";
 import { formatVND, type Voucher } from "@/lib/data";
 import { getProvinces, getWardsByProvince } from "@/lib/address";
+import { trackBeginCheckout, trackPurchase } from "@/lib/tracking";
 
 const PAYMENT_METHODS = [
   { key: "COD", label: "Thanh toán khi nhận hàng (COD)" },
@@ -46,6 +47,28 @@ export default function CheckoutPage() {
 
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
+
+  const beginCheckoutSent = useRef(false);
+  useEffect(() => {
+    // GA4 Ecommerce: begin_checkout — bắn đúng 1 lần khi khách vào trang thanh
+    // toán (từ nút "Mua ngay" ở trang sản phẩm hoặc "Thanh toán" ở giỏ hàng đều
+    // dẫn tới đây), bỏ qua nếu giỏ trống (vào thẳng URL không qua luồng mua hàng).
+    if (beginCheckoutSent.current) return;
+    if (items.length === 0) return;
+    beginCheckoutSent.current = true;
+    trackBeginCheckout(
+      items.map((i) => ({
+        item_id: i.productId,
+        item_name: i.name,
+        item_category: i.category,
+        price: i.price,
+        quantity: i.quantity,
+      })),
+      subtotal
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items.length]);
+
 
   const provinces = useMemo(() => getProvinces(), []);
   const wards = useMemo(
@@ -146,6 +169,24 @@ export default function CheckoutPage() {
         setSubmitting(false);
         return;
       }
+
+      // GA4 Ecommerce: purchase — CHỈ bắn ở đây, ngay sau khi /api/orders xác
+      // nhận đã ghi Google Sheets thành công (data.orderId tồn tại). Không bắn
+      // ở trang /dat-hang-thanh-cong vì trang đó có thể bị F5 lại nhiều lần.
+      trackPurchase({
+        transactionId: data.orderId,
+        value: total,
+        shipping: shippingFee,
+        tax: 0,
+        coupon: appliedCodes.join(" + ") || undefined,
+        items: items.map((i) => ({
+          item_id: i.productId,
+          item_name: i.name,
+          item_category: i.category,
+          price: i.price,
+          quantity: i.quantity,
+        })),
+      });
 
       clearCart();
       router.push(`/dat-hang-thanh-cong?orderId=${data.orderId}`);

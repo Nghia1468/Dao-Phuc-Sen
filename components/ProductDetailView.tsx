@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { formatVND, type Product } from "@/lib/data";
 import { isYouTubeUrl, getYouTubeEmbedUrl, getYouTubeThumbnail } from "@/lib/youtube";
+import { trackViewItem } from "@/lib/tracking";
 import type { Review } from "@/lib/reviews";
 import { useCart } from "@/lib/cart-context";
 import { useToast } from "@/lib/toast-context";
@@ -57,6 +58,14 @@ export default function ProductDetailView({
       }),
       keepalive: true,
     }).catch(() => {});
+
+    // GA4 Ecommerce: view_item (đẩy qua GTM → GA4 + Meta Pixel "ViewContent").
+    trackViewItem({
+      item_id: product.id,
+      item_name: product.name,
+      item_category: product.category,
+      price: product.salePrice ?? product.price,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product.id]);
 
